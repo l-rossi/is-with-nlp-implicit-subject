@@ -3,6 +3,26 @@ Approaching Information System Challenges with Natural Language Processing - Fin
 
 This project tackles the challenge of identifying implicit subjects in legal text by employing a rule based approach
 
+
+
+
+## Installation
+
+I recommend using [Anaconda](https://www.anaconda.com/) for setting up the environment and all dependencies.
+
+Run:
+```console
+conda env create -f env.yml
+```
+to create the `is-with-nlp-implicit-subject` environment on your machine and:
+```console
+conda activate is-with-nlp-implicit-subject
+```
+to select it.
+
+
+
+
 Project Organization
 ------------
 
