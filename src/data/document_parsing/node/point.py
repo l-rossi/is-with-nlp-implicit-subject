@@ -1,9 +1,9 @@
 import re
 import typing
 
-from src.data.document_parsing.node.node import Node
-from src.data.document_parsing.node.subparagraph import Subparagraph
-from src.data.util.util import alph_to_dec
+from data.document_parsing.node.node import Node
+from data.document_parsing.node.subparagraph import Subparagraph
+from util.util import alph_to_dec
 
 
 class Point(Node):

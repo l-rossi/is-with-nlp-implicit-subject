@@ -15,3 +15,8 @@ pathlib2
 
 spacy
 tika
+
+textacy
+coreferee
+
+graphviz

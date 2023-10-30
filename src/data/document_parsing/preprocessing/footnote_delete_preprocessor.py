@@ -1,7 +1,7 @@
 import re
 import typing
 
-from src.data.document_parsing.preprocessing.block_preprocessor import \
+from data.document_parsing.preprocessing.block_preprocessor import \
     BlockPreprocessor
 
 

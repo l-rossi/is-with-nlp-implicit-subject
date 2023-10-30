@@ -1,6 +1,6 @@
 from typing import Tuple, Optional, Type
 
-from src.data.document_parsing.node.node import Node
+from data.document_parsing.node.node import Node
 
 
 class Root(Node):

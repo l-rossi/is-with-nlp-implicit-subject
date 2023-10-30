@@ -3,8 +3,8 @@ import re
 from typing import ClassVar
 from typing import Tuple, Optional
 
-from src.data.document_parsing.node.node import Node
-from src.data.document_parsing.node.point import Point
+from data.document_parsing.node.node import Node
+from data.document_parsing.node.point import Point
 
 
 class Indent(Node):

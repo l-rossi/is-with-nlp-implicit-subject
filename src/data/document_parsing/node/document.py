@@ -1,6 +1,6 @@
 import typing
 
-from src.data.document_parsing.node.node import Node
+from data.document_parsing.node.node import Node
 
 
 class Document(Node):

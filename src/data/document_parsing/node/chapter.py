@@ -1,10 +1,10 @@
 import re
 import typing
 
-from src.data.document_parsing.node.node import Node
-from src.data.document_parsing.node.title import Title
-from src.data.util.regex_util import RegexUtil
-from src.data.util.util import rom_to_dec
+from data.document_parsing.node.node import Node
+from data.document_parsing.node.title import Title
+from util.regex_util import RegexUtil
+from util.util import rom_to_dec
 
 
 class Chapter(Node):

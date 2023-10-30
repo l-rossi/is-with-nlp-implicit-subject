@@ -1,23 +1,23 @@
 import typing
 from typing import List, Optional, Type
 
-from src.data.document_parsing.node.article import Article
-from src.data.document_parsing.node.chapter import Chapter
-from src.data.document_parsing.node.document import Document
-from src.data.document_parsing.node.indent import Indent
-from src.data.document_parsing.node.node import Node
-from src.data.document_parsing.node.point import Point
-from src.data.document_parsing.node.section import Section
-from src.data.document_parsing.node.subparagraph import Paragraph
-from src.data.document_parsing.node.subparagraph import Subparagraph
-from src.data.document_parsing.node.title import Title
-from src.data.document_parsing.preprocessing.block_preprocessor import \
+from data.document_parsing.node.article import Article
+from data.document_parsing.node.chapter import Chapter
+from data.document_parsing.node.document import Document
+from data.document_parsing.node.indent import Indent
+from data.document_parsing.node.node import Node
+from data.document_parsing.node.point import Point
+from data.document_parsing.node.section import Section
+from data.document_parsing.node.subparagraph import Paragraph
+from data.document_parsing.node.subparagraph import Subparagraph
+from data.document_parsing.node.title import Title
+from data.document_parsing.preprocessing.block_preprocessor import \
     BlockPreprocessor
-from src.data.document_parsing.preprocessing.footnote_append_preprocessor import \
+from data.document_parsing.preprocessing.footnote_append_preprocessor import \
     FootnoteAppendPreprocessor
-from src.data.document_parsing.preprocessing.header_preprocessor import \
+from data.document_parsing.preprocessing.header_preprocessor import \
     HeaderPreprocessor
-from src.data.document_parsing.preprocessing.initial_space_preprocessor import InitialSpacePreprocessor
+from data.document_parsing.preprocessing.initial_space_preprocessor import InitialSpacePreprocessor
 
 
 class DocumentTreeParser:
@@ -87,7 +87,7 @@ class DocumentTreeParser:
         :param title: The name of the regulation.
         :return: The Document node representing the document
         """
-        with open(f"./resources/eu_documents/{file_name}", encoding="utf-8") as f:
+        with open(f"../../data/external/eu_documents/{file_name}", encoding="utf-8") as f:
             return self.parse_document(title, f.read())
 
     @staticmethod

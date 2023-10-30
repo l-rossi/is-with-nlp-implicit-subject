@@ -1,8 +1,8 @@
 import re
 import typing
 
-from src.data.document_parsing.node.article import Article
-from src.data.document_parsing.node.node import Node
+from data.document_parsing.node.article import Article
+from data.document_parsing.node.node import Node
 
 
 class Paragraph(Node):

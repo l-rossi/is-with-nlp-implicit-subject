@@ -1,8 +1,8 @@
 import re
 import typing
 
-from src.data.document_parsing.node.node import Node
-from src.data.document_parsing.node.section import Section
+from data.document_parsing.node.node import Node
+from data.document_parsing.node.section import Section
 
 
 class Article(Node):

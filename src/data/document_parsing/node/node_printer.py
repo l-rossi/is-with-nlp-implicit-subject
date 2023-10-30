@@ -1,7 +1,7 @@
 import typing
 
-from src.data.document_parsing.node.node import Node
-from src.data.document_parsing.node.node_traversal import pre_order
+from data.document_parsing.node.node import Node
+from data.document_parsing.node.node_traversal import pre_order
 
 
 def print_nodes(start: Node, indent: int = 3, content_preview_length: int = 20,

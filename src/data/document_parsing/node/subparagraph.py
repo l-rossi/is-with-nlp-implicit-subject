@@ -1,8 +1,8 @@
 import logging
 import typing
 
-from src.data.document_parsing.node.node import Node
-from src.data.document_parsing.node.paragraph import Paragraph
+from data.document_parsing.node.node import Node
+from data.document_parsing.node.paragraph import Paragraph
 
 
 class Subparagraph(Node):

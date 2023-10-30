@@ -3,24 +3,48 @@ Approaching Information System Challenges with Natural Language Processing - Fin
 
 This project tackles the challenge of identifying implicit subjects in legal text by employing a rule based approach
 
-
-
-
 ## Installation
 
 I recommend using [Anaconda](https://www.anaconda.com/) for setting up the environment and all dependencies.
 
 Run:
+
 ```console
 conda env create -f env.yml
 ```
+
 to create the `is-with-nlp-implicit-subject` environment on your machine and:
+
 ```console
 conda activate is-with-nlp-implicit-subject
 ```
+
 to select it.
 
+coreferee requires an additional download which can be done from the console (with an active Anaconda environment.
+spaCys packages should be installed by conda):
 
+```console
+python -m coreferee install en
+```
+
+## Project Plan
+
+Two major groups of implicit subjects identified so far:
+a) endophoric references b) Omitted "agent" in passive sentences.
+
+Coreferee has a great discussion of how rules are used to resolve coreferences: https://github.com/msg-systems/coreferee. (Which then uses an ML at the end)
+
+-> Question then is how to integrate the noun phrases into the text.
+
+Q1: Does Grammar actually matter here? At least early approaches seem to be fine with lemmata in input.
+Q2: Deal with endophoric phrases: ``he or she`` creates problems as only one of the pronouns is resolved.
+
+According to Ji at al 4 types of resolution:
+1) mention-pair models (connect nodes of graph over pairwise probabilities)
+2) entity-level models -> augment previous model by merging based on all the edges between the clusters?
+3) latent-tree models -> ??? Clustering using SVM
+4) mention-ranking models -> Same just with all tokens??
 
 
 Project Organization
@@ -70,7 +94,6 @@ Project Organization
     │       └── visualize.py
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
-
 
 --------
 

@@ -1,9 +1,9 @@
 import re
 import typing
 
-from src.data.document_parsing.node.document import Document
-from src.data.document_parsing.node.node import Node
-from src.data.util.util import rom_to_dec
+from data.document_parsing.node.document import Document
+from data.document_parsing.node.node import Node
+from util.util import rom_to_dec
 
 
 class Title(Node):
