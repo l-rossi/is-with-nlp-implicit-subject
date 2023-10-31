@@ -31,7 +31,15 @@ python -m coreferee install en
 ## Project Plan
 
 Two major groups of implicit subjects identified so far:
-a) endophoric references b) Omitted "agent" in passive sentences.
+a) endophoric references b) Omitted "agent" in passive sentences
+
+There exits a plethora of coreference corpora but as far as I can see none a
+specific to the domain of legal texts. But too specific for our use case imo-
+
+I want to have the Insurance Claims regulatory
+paragraphs; process
+descriptions data
+
 
 Coreferee has a great discussion of how rules are used to resolve coreferences: https://github.com/msg-systems/coreferee. (Which then uses an ML at the end)
 
@@ -40,11 +48,18 @@ Coreferee has a great discussion of how rules are used to resolve coreferences: 
 Q1: Does Grammar actually matter here? At least early approaches seem to be fine with lemmata in input.
 Q2: Deal with endophoric phrases: ``he or she`` creates problems as only one of the pronouns is resolved.
 
-According to Ji at al 4 types of resolution:
+According to [Ji at](https://www.sciencedirect.com/science/article/pii/S0306457320308608) al 4 types of resolution (Their stuff is for implicit subject in dialog):
 1) mention-pair models (connect nodes of graph over pairwise probabilities)
 2) entity-level models -> augment previous model by merging based on all the edges between the clusters?
 3) latent-tree models -> ??? Clustering using SVM
 4) mention-ranking models -> Same just with all tokens??
+
+
+
+
+### Just some notes
+
+
 
 
 Project Organization
