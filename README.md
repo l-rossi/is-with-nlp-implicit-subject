@@ -34,7 +34,7 @@ Categories of implicit subjects:
 
 - Passive sentence without nsubj
 - Imperative
-- 
+- Gerund
 
 
 
