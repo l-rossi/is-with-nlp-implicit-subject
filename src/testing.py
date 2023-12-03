@@ -23,9 +23,7 @@ def main():
     for target in targets:
         subj = "by the subject"
 
-        # Insert
         *_, insertion_point = (x for x in target.predicate.subtree if x.dep_ != "punct")
-
 
         list_tokens = list(token.text_with_ws for token in doc)
         print(insertion_point)
