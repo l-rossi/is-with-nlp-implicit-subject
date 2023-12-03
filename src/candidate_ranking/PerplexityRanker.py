@@ -16,6 +16,7 @@ class PerplexityRanker(CandidateRanker):
 
     def __init__(self, model_id="gpt2-large"):
         self.perplexity = evaluate.load("perplexity", module_type="metric")
+        # self.tokenizer =  GPT2TokenizerFast.from_pretrained(model_id)
         self.model_id = model_id
 
     def rank(self, target: Token, candidates: List[Token]) -> List[Token]:
