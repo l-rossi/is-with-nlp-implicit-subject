@@ -2,11 +2,12 @@ import os
 
 import spacy
 
-from candidate_extraction.CandidateExtractor import CandidateExtractor
+from ImplcitSubjectPipeline import ImplicitSubjectPipeline
+from candidate_extraction.CandidateExtracorImpl import CandidateExtractorImpl
 from candidate_ranking.PerplexityRanker import PerplexityRanker
-from insertion.ImplicitSubjectInserter import ImplicitSubjectInserter
+from insertion.ImplcitSubjectInserterImpl import ImplicitSubjectInserterImpl
+from missing_subject_detection.ImperativeDetector import ImperativeDetector
 from missing_subject_detection.PassiveDetector import PassiveDetector
-from util import get_noun_chunk
 
 
 def main():
@@ -21,28 +22,20 @@ def main():
     then forwarded to the budget owner and after that to the supervisor.
     If the budget owner and supervisor are the same person, then only one 
     of the these steps is taken. In some cases, the director also needs to approve
-    the request
+    the request. Select an appropriate component.
     """
 
-    nlp = spacy.load("en_core_web_trf")
-    doc = nlp(ctx)
+    pipeline = ImplicitSubjectPipeline(
+        missing_subject_detectors=[PassiveDetector(), ImperativeDetector()],
+        candidate_extractor=CandidateExtractorImpl(),
+        candidate_ranker=PerplexityRanker(),
+        missing_subject_inserter=ImplicitSubjectInserterImpl(),
+        verbose=True
+    )
 
-    targets = PassiveDetector().detect(doc)
-    print("target", targets)
-
-    candidates = CandidateExtractor().extract(doc)
-
-    ranker = PerplexityRanker()
-
-
-    subjs = [
-        get_noun_chunk(ranker.rank(target.predicate, candidates)[0]) for target in targets
-    ]
-
-    print(subjs)
-
-    resolved = ImplicitSubjectInserter().insert(doc, targets, subjs)
-    print(resolved)
+    pipeline.apply(
+        ctx
+    )
 
     exit()
 
