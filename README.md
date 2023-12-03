@@ -21,8 +21,6 @@ conda activate is-with-nlp-implicit-subject
 
 to select it.
 
-(TODO coreferee is probably not even needed)
-
 coreferee requires an additional download which can be done from the console (with an active Anaconda environment.
 spaCys packages should be installed by conda):
 
@@ -32,8 +30,8 @@ python -m coreferee install en
 
 Please use the root folder as your working directory.
 
-
 ## Goldstandard wip
+
 https://docs.google.com/spreadsheets/d/1o92z018fu5IBF7pD2XGexKKM9XYjQSDHdDboLIzRwPQ/edit#gid=0
 
 ## Project Plan
@@ -43,24 +41,20 @@ Categories of implicit subjects:
 - Passive sentence without nsubj
 - Imperative
 - Gerund
-
+- Nominative
 
 Basic pipeline
-1. Missing subject detection
-   1. Location extraction
-   2. Type extraction
+
+[//]: # (1. Preprocessing &#40;mostly just coreference resolution&#41;)
+1.    Missing subject detection
+    1. Location extraction
+    2. Type extraction
 2. Candidate extraction
 3. Candidate ranking
-4. Candidate and verb inflection
+4. Candidate and verb inflection/ Morphological adjustments
 5. Insertion
 
-
-
-
 ### Just some notes
-
-
-
 
 Project Organization
 ------------
