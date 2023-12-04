@@ -21,13 +21,6 @@ conda activate is-with-nlp-implicit-subject
 
 to select it.
 
-coreferee requires an additional download which can be done from the console (with an active Anaconda environment.
-spaCys packages should be installed by conda):
-
-```console
-python -m coreferee install en
-```
-
 Please use the root folder as your working directory.
 
 ## Goldstandard wip
