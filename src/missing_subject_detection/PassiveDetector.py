@@ -1,6 +1,6 @@
 from typing import List
 
-from spacy.tokens import Doc, Token
+from spacy.tokens import Doc, Token, Span
 
 from missing_subject_detection.ImplicitSubjectDetection import ImplicitSubjectDetection, ImplicitSubjectType
 from missing_subject_detection.ImplicitSubjectDetector import ImplicitSubjectDetector
@@ -22,6 +22,6 @@ class PassiveDetector(ImplicitSubjectDetector):
     def _has_explicit_subject(token: Token):
         return any(c.dep_ == "agent" for c in token.children)
 
-    def detect(self, doc: Doc) -> List[ImplicitSubjectDetection]:
-        return [ImplicitSubjectDetection(predicate=tok, type=ImplicitSubjectType.PASSIVE) for tok in doc if
+    def detect(self, span: Span) -> List[ImplicitSubjectDetection]:
+        return [ImplicitSubjectDetection(predicate=tok, type=ImplicitSubjectType.PASSIVE) for tok in span if
                 tok.tag_ == "VBN" and not self._has_explicit_subject(tok) and self._has_aux_pass(tok)]

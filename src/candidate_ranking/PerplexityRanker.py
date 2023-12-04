@@ -9,14 +9,16 @@ from util import get_noun_chunk
 
 class PerplexityRanker(CandidateRanker):
     """
+
     Ranks candidates on the their perplexity when concatenated with the target predicate.
 
     This is just a demonstration of a possible ranker and should not be used as it disregards context.
+
+    # Correct: 1/77 (1.30%)
     """
 
-    def __init__(self, model_id="gpt2-large"):
+    def __init__(self, model_id="gpt2"):
         self.perplexity = evaluate.load("perplexity", module_type="metric")
-        # self.tokenizer =  GPT2TokenizerFast.from_pretrained(model_id)
         self.model_id = model_id
 
     def rank(self, target: Token, candidates: List[Token]) -> List[Token]:
@@ -34,7 +36,7 @@ class PerplexityRanker(CandidateRanker):
         ]
 
         results = self.perplexity.compute(model_id=self.model_id,
-                                          add_start_token=False,
+                                          add_start_token=True,
                                           predictions=input_texts)
 
         # TODO maybe return noun chunk instead

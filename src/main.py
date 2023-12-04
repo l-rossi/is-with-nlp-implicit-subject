@@ -1,75 +1,45 @@
-import os
-
-import spacy
-
-from ImplcitSubjectPipeline import ImplicitSubjectPipeline
+from ImplicitSubjectPipeline import ImplicitSubjectPipeline
 from candidate_extraction.CandidateExtracorImpl import CandidateExtractorImpl
-from candidate_ranking.PerplexityRanker import PerplexityRanker
+from candidate_ranking.ProximityRanker import ProximityRanker
 from insertion.ImplcitSubjectInserterImpl import ImplicitSubjectInserterImpl
 from missing_subject_detection.ImperativeDetector import ImperativeDetector
 from missing_subject_detection.PassiveDetector import PassiveDetector
+from util import load_gold_standard
 
 
 def main():
-    # tokenizer = AutoTokenizer.from_pretrained("distilroberta-base")
-
-    # mask_filler = pipeline("fill-mask", "distilroberta-base")
-
-    ctx = """
-    The various declaration documents all follow a similar process 
-    flow. After submission by the employee, the request is sent for
-    approval to the travel administration. If approved by the person, the request is
-    then forwarded to the budget owner and after that to the supervisor.
-    If the budget owner and supervisor are the same person, then only one 
-    of the these steps is taken. In some cases, the director also needs to approve
-    the request. Select an appropriate component.
-    """
-
     pipeline = ImplicitSubjectPipeline(
         missing_subject_detectors=[PassiveDetector(), ImperativeDetector()],
         candidate_extractor=CandidateExtractorImpl(),
-        candidate_ranker=PerplexityRanker(),
+        candidate_ranker=ProximityRanker(),  # PerplexityRanker(),  #
         missing_subject_inserter=ImplicitSubjectInserterImpl(),
         verbose=True
     )
 
-    pipeline.apply(
-        ctx
-    )
+    n_inspected = 0
+    n_correct = 0
 
-    exit()
+    for source, target, gs in list(load_gold_standard())[57:58]:
+        print(source)
+        print("-" * 4)
+        print(target)
+        print("-" * 4)
 
-    nlp = spacy.load("en_core_web_trf")
-    # nlp = spacy.load("en_core_web_sm")
+        generated = pipeline.apply(
+            inspected_text=target,
+            context=source
+        )
 
-    # data_dir = "./data/external/synthetic"
-    data_dir = "./data/external/synthetic"
+        n_inspected += 1
+        if gs.strip() == generated.strip():
+            n_correct += 1
 
-    chunks = []
-    for file_name in os.listdir(data_dir):
-        with open(data_dir + "/" + file_name, "r", encoding="utf-8") as f:
-            chunks.append(f.read())
+        print("-" * 4)
+        print("Expected:", gs)
+        print("Actual:  ", generated)
+        print("-" * 9)
 
-    # with open(data_dir + "/BPI_2020_Challenge.txt", "r", encoding="utf-8") as f:
-    #     text = f.read()
-
-    text = """
-          The setup of your account starts with Blizzard checking whether you have a battle.net account.
-           """.strip()
-
-    # doc = nlp(text)
-    # displacy.serve(doc, "dep")
-
-    for chunk in chunks[:1]:
-        print(chunk)
-        doc = nlp(chunk)
-
-        # print(ImperativeDetector().detect(doc))
-        print(CandidateExtractor().extract(doc))
-
-    # passive: VBN without pobj or more strictly even without a by as a pobj might be present, e.g., sent for approval
-    # Gerund:  (checking, 'pcomp', 'VBG')
-    # Imperative: VB? but that is base form
+    print(f"Correct: {n_correct}/{n_inspected} ({n_correct / n_inspected * 100 :.2f}%)")
 
 
 if __name__ == "__main__":
