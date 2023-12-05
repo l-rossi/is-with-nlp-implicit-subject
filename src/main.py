@@ -19,9 +19,11 @@ def main():
     n_inspected = 0
     n_correct = 0
 
-    for source, target, gs in list(load_gold_standard())[57:58]:
+    for source, target, gs in list(load_gold_standard())[:1]:
+        print("Context:")
         print(source)
-        print("-" * 4)
+        print("-" * 5)
+        print("Inspected text:")
         print(target)
         print("-" * 4)
 
