@@ -1,7 +1,7 @@
 from ImplicitSubjectPipeline import ImplicitSubjectPipeline
 from candidate_extraction.CandidateExtracorImpl import CandidateExtractorImpl
 from candidate_ranking.ProximityRanker import ProximityRanker
-from insertion.ImplcitSubjectInserterImpl import ImplicitSubjectInserterImpl
+from insertion.ImplicitSubjectInserterImpl import ImplicitSubjectInserterImpl
 from missing_subject_detection.ImperativeDetector import ImperativeDetector
 from missing_subject_detection.PassiveDetector import PassiveDetector
 from util import load_gold_standard
@@ -25,7 +25,7 @@ def main():
         print("-" * 5)
         print("Inspected text:")
         print(target)
-        print("-" * 4)
+        print("-" * 5)
 
         generated = pipeline.apply(
             inspected_text=target,
