@@ -7,7 +7,11 @@ from missing_subject_detection.ImplicitSubjectDetector import ImplicitSubjectDet
 from missing_subject_detection.util import has_explicit_subject, has_aux_pass
 
 
-class PassiveDetector(ImplicitSubjectDetector):
+class GerundDetector(ImplicitSubjectDetector):
+    """
+    Detects gerunds which are missing a 'subject', i.e., a by phrase.
+    """
+
     def detect(self, span: Span) -> List[ImplicitSubjectDetection]:
-        return [ImplicitSubjectDetection(predicate=tok, type=ImplicitSubjectType.PASSIVE) for tok in span if
-                tok.tag_ == "VBN" and not has_explicit_subject(tok) and has_aux_pass(tok)]
+        return [ImplicitSubjectDetection(predicate=tok, type=ImplicitSubjectType.GERUND) for tok in span if
+                tok.tag_ == "VBG" and not has_explicit_subject(tok) and has_aux_pass(tok)]

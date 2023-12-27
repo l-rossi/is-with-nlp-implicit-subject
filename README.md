@@ -34,7 +34,8 @@ Categories of implicit subjects:
 - Passive sentence without nsubj
 - Imperative
 - Gerund
-- Nominative
+- Nominalized Gerund
+- (Regular nouns, probably just future work)
 
 Basic pipeline
 

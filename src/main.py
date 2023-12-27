@@ -8,6 +8,8 @@ from util import load_gold_standard
 
 
 def main():
+    # TODO pattern library for morphology?
+
     pipeline = ImplicitSubjectPipeline(
         missing_subject_detectors=[PassiveDetector(), ImperativeDetector()],
         candidate_extractor=CandidateExtractorImpl(),
@@ -19,7 +21,7 @@ def main():
     n_inspected = 0
     n_correct = 0
 
-    for source, target, gs in list(load_gold_standard())[:1]:
+    for source, target, gs in list(load_gold_standard())[:20]:
         print("Context:")
         print(source)
         print("-" * 5)

@@ -1,6 +1,8 @@
 import spacy
 from spacy import displacy
 
+from missing_subject_detection.GerundDetector import GerundDetector
+from missing_subject_detection.NominalizedGerundWordlistDetector import NominalizedGerundWordlistDetector
 from missing_subject_detection.PassiveDetector import PassiveDetector
 
 
@@ -15,8 +17,11 @@ def main():
     the request. Select an appropriate component.
     """
 
+    # Omitting the verb from the sentence is also possible. Once omitted, it is no longer present.
+
     txt = """
-    Information provided under Articles 13 and 14 and any communication and any actions taken under Articles 15 to 22 and 34 shall be provided by the controller free of charge.
+    Processing is an arduous task. The processor is a part of a computer. He is processing the task.
+    
     """
 
     """
@@ -28,20 +33,12 @@ def main():
     nlp = spacy.load("en_core_web_trf")
     doc = nlp(txt)
 
-    targets = PassiveDetector().detect(doc[:])
+    # print(PassiveDetector().detect(doc[:]))
+    # print(GerundDetector().detect(doc[:]))
+    print(NominalizedGerundWordlistDetector().detect(doc[:]))
 
-    for target in targets:
-        subj = "by the subject"
-
-        *_, insertion_point = (x for x in target.predicate.subtree if x.dep_ != "punct")
-
-        list_tokens = list(token.text_with_ws for token in doc)
-        print(insertion_point)
-        print(insertion_point.text_with_ws)
-        list_tokens[insertion_point.i] = insertion_point.text_with_ws + " " + subj
-        resolved_text = "".join(list_tokens)
-        print(resolved_text)
-        print("---")
+    for tok in doc:
+        print(tok.text, tok.dep_, tok.tag_, tok.lemma_)
 
     displacy.serve(doc, style="dep")
 
