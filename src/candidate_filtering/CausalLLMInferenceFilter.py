@@ -4,10 +4,11 @@ import numpy as np
 from spacy.tokens import Token
 from transformers import AutoModelForCausalLM, GPT2Tokenizer
 
-from candidate_ranking.CandidateRanker import CandidateRanker
+from candidate_filtering.CandidateFilter import CandidateFilter
+from missing_subject_detection.ImplicitSubjectDetection import ImplicitSubjectDetection
 
 
-class CausalLLMInferenceRanker(CandidateRanker):
+class CausalLLMInferenceFilter(CandidateFilter):
     """
     TODO delete me
     """
@@ -17,9 +18,9 @@ class CausalLLMInferenceRanker(CandidateRanker):
         self.model = AutoModelForCausalLM.from_pretrained(model_id)
         self.tokenizer.pad_token_id = self.tokenizer.eos_token_id
 
-    def rank(self, target: Token, candidates: List[Token]) -> List[Token]:
-
+    def filter(self, target: ImplicitSubjectDetection, candidates: List[Token]) -> List[Token]:
         # This is dumb....
+        target = target.predicate
 
         candidate_spans = [x.doc[x.left_edge.i: x.right_edge.i + 1].text for x in candidates]
         inputs = self.tokenizer([f"{target.text} by "], return_tensors="pt")
@@ -43,4 +44,4 @@ class CausalLLMInferenceRanker(CandidateRanker):
                 print(
                     f"| {tok:5d} | {self.tokenizer.decode(tok):8s} | {score.numpy():.3f} | {np.exp(score.numpy()):.2%}")
 
-        return []
+        return candidates

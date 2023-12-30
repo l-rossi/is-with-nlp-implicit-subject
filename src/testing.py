@@ -1,9 +1,8 @@
 import spacy
 from spacy import displacy
+import yake
 
-from missing_subject_detection.GerundDetector import GerundDetector
-from missing_subject_detection.NominalizedGerundWordlistDetector import NominalizedGerundWordlistDetector
-from missing_subject_detection.PassiveDetector import PassiveDetector
+from candidate_extraction.CandidateExtracorImpl import CandidateExtractorImpl
 
 
 def main():
@@ -20,10 +19,7 @@ def main():
     # Omitting the verb from the sentence is also possible. Once omitted, it is no longer present.
 
     txt = """
-    Processing is an arduous task. The processor is a part of a computer. He is processing the task.
-    
-    """
-
+Once the raw materials have been obtained by the warehouse & distribution department, the warehouse & distribution department takes care of manufacturing the product."""
     """
     As soon as an offer is accepted, all other offers become invalid.
     A job interview can be negotiated.
@@ -35,7 +31,11 @@ def main():
 
     # print(PassiveDetector().detect(doc[:]))
     # print(GerundDetector().detect(doc[:]))
-    print(NominalizedGerundWordlistDetector().detect(doc[:]))
+    # print(NominalizedGerundWordlistDetector().detect(doc[:]))
+
+    print(CandidateExtractorImpl().extract(doc))
+
+    print(doc.ents)
 
     for tok in doc:
         print(tok.text, tok.dep_, tok.tag_, tok.lemma_)

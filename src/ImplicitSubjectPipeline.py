@@ -1,11 +1,12 @@
 import warnings
+from functools import reduce
 from typing import List, Optional
 
 import spacy
 from spacy.tokens import Token
 
 from candidate_extraction.CandidateExtractor import CandidateExtractor
-from candidate_ranking.CandidateRanker import CandidateRanker
+from candidate_filtering.CandidateFilter import CandidateFilter
 from insertion.ImplicitSubjectInserter import ImplicitSubjectInserter
 from missing_subject_detection.ImplicitSubjectDetection import ImplicitSubjectDetection
 from missing_subject_detection.ImplicitSubjectDetector import ImplicitSubjectDetector
@@ -20,11 +21,11 @@ class ImplicitSubjectPipeline:
     def __init__(self,
                  missing_subject_detectors: List[ImplicitSubjectDetector],
                  candidate_extractor: CandidateExtractor,
-                 candidate_ranker: CandidateRanker,
+                 candidate_rankers: List[CandidateFilter],
                  missing_subject_inserter: ImplicitSubjectInserter,
                  verbose: bool = False,
                  fast: bool = False):
-        self._candidate_ranker = candidate_ranker
+        self._candidate_rankers = candidate_rankers
         self._missing_subject_detectors = missing_subject_detectors
         self._candidate_extractor = candidate_extractor
         self._missing_subject_inserter = missing_subject_inserter
@@ -35,13 +36,12 @@ class ImplicitSubjectPipeline:
         if self._verbose:
             print(*msg, **kwargs)
 
-    def _get_highest_ranked_candidates(self, targets: List[ImplicitSubjectDetection], candidates: List[Token]):
+    def _apply_candidate_filters(self, targets: List[ImplicitSubjectDetection], candidates: List[Token]):
         for target in targets:
-            ranked = self._candidate_ranker.rank(target.predicate, candidates)
-            if ranked:
-                yield str(get_noun_chunk(ranked[0]))
-            else:
-                raise ValueError(f"Received no candidates from ranking for target {target}.")
+            res = reduce(lambda acc, f: f.filter(target, acc), self._candidate_rankers, candidates)
+            # TODO better defaults
+            tok = res[0] if res else candidates[0]
+            yield str(get_noun_chunk(tok))
 
     def apply(self, inspected_text: str, context: Optional[str] = None) -> str:
         """
@@ -77,7 +77,7 @@ class ImplicitSubjectPipeline:
         self._debug("Extracted the following candidates:\n", candidates, sep="")
         self._debug("-----")
 
-        subjects_for_insertion = list(self._get_highest_ranked_candidates(targets, candidates))
+        subjects_for_insertion = list(self._apply_candidate_filters(targets, candidates))
 
         self._debug("Picked the following subjects for insertion:\n", *zip(targets, subjects_for_insertion), sep="")
 

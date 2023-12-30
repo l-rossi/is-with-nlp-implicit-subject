@@ -1,8 +1,11 @@
 from ImplicitSubjectPipeline import ImplicitSubjectPipeline
 from candidate_extraction.CandidateExtracorImpl import CandidateExtractorImpl
-from candidate_ranking.ProximityRanker import ProximityRanker
+from candidate_filtering.ProximityFilter import ProximityFilter
+from candidate_filtering.SemanticSimilarityFilter import SemanticSimilarityFilter
 from insertion.ImplicitSubjectInserterImpl import ImplicitSubjectInserterImpl
+from missing_subject_detection.GerundDetector import GerundDetector
 from missing_subject_detection.ImperativeDetector import ImperativeDetector
+from missing_subject_detection.NominalizedGerundWordlistDetector import NominalizedGerundWordlistDetector
 from missing_subject_detection.PassiveDetector import PassiveDetector
 from util import load_gold_standard
 
@@ -11,9 +14,10 @@ def main():
     # TODO pattern library for morphology?
 
     pipeline = ImplicitSubjectPipeline(
-        missing_subject_detectors=[PassiveDetector(), ImperativeDetector()],
+        missing_subject_detectors=[PassiveDetector(), ImperativeDetector(), GerundDetector(),
+                                   NominalizedGerundWordlistDetector()],
         candidate_extractor=CandidateExtractorImpl(),
-        candidate_ranker=ProximityRanker(),  # PerplexityRanker(),  #
+        candidate_rankers=[SemanticSimilarityFilter(), ProximityFilter()],  # PerplexityRanker(),  #
         missing_subject_inserter=ImplicitSubjectInserterImpl(),
         verbose=True
     )
@@ -21,7 +25,7 @@ def main():
     n_inspected = 0
     n_correct = 0
 
-    for source, target, gs in list(load_gold_standard())[:20]:
+    for source, target, gs in list(load_gold_standard())[0:20]:
         print("Context:")
         print(source)
         print("-" * 5)
