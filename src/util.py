@@ -5,6 +5,7 @@ from spacy.tokens import Token, Span
 
 # Constants based on textacy's constants
 SUBJ_DEPS = {"agent", "csubj", "csubjpass", "expl", "nsubj", "nsubjpass"}
+ACTIVE_VOICE_SUBJ_DEPS = {"agent", "csubj", "expl", "nsubj"}
 OBJ_DEPS = {"attr", "dobj", "dative", "oprd", "pobj"}
 AUX_DEPS = {"aux", "auxpass", "neg"}
 NOMINAL_SUBJ_DEPS = {"agent", "expl", "nsubj", "nsubjpass"}
@@ -101,14 +102,14 @@ def is_acl_without_subj(tok: Token):
     return tok.dep_ == "acl" and not any(x.dep_ in SUBJ_DEPS for x in tok.children)
 
 
-def get_noun_chunk(token: Token):
+def get_noun_chunk(token: Token) -> Span:
     """
     Gets the noun chunk the token is contained in.
     """
     for chunk in token.doc.noun_chunks:
         if token in chunk:
-            return chunk.text
-    return token
+            return chunk
+    return token.doc[token.i: token.i + 1]
 
 
 def load_gold_standard(file_name='./data/evaluation/gold_standard.csv') -> Iterable[Tuple[str, str, str]]:
@@ -123,3 +124,13 @@ def load_gold_standard(file_name='./data/evaluation/gold_standard.csv') -> Itera
                 source_txt = source_file.read().replace("\n", " ").replace("  ", " ")
 
             yield source_txt, target, gs
+
+
+def search_for_head(tok: Token):
+    """
+    Used to find the predicate of an object/subject.
+    """
+    head = tok.head
+    while head.dep_ in AUX_DEPS:
+        head = head.head
+    return head

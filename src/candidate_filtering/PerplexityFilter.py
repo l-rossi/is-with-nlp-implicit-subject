@@ -4,44 +4,49 @@ import evaluate
 from spacy.tokens import Token
 
 from candidate_filtering.CandidateFilter import CandidateFilter
+from insertion.ImplicitSubjectInserterImpl import ImplicitSubjectInserterImpl
 from missing_subject_detection.ImplicitSubjectDetection import ImplicitSubjectDetection
-from util import get_noun_chunk
 
 
 class PerplexityFilter(CandidateFilter):
     """
+    Ranks candidates based on the perplexity of the generated sentence using a LLM.
 
-    Ranks candidates on the their perplexity when concatenated with the target predicate.
-
-    This is just a demonstration of a possible ranker and should not be used as it disregards context.
-
-    # Correct: 1/77 (1.30%)
+    Disregards the larger context but good for filtering out semantically nonsensical candidates, e.g.,
+    The letter is sent by [the rotation around the sun].
     """
 
-    def __init__(self, model_id="gpt2", cutoff=0.6):
-        self.perplexity = evaluate.load("perplexity", module_type="metric")
-        self.model_id = model_id
-        self.cutoff = cutoff
+    def __init__(self, model_id="gpt2", perplexity_buffer=1.5, missing_subject_inserter=None, max_returned=5):
+        self._perplexity = evaluate.load("perplexity", module_type="metric")
+        self._model_id = model_id
+        self._perplexity_buffer = perplexity_buffer
+        self._missing_subject_inserter = missing_subject_inserter or ImplicitSubjectInserterImpl()
+        self._max_returned = max_returned
 
     def filter(self, target: ImplicitSubjectDetection, candidates: List[Token]) -> List[Token]:
         """
-        Permutes the list of candidates according to the perplexity of the candidate appended to the target.
-        This is straight up dumb and just a demonstration.
+        Filters out candidates based the sentences perplexity when compared to the complexity of the
+        sentence without the inserted candidate.
         """
         if not candidates:
             return []
 
-        target = target.predicate
-
-        candidate_chunks = [get_noun_chunk(x) for x in candidates]
-
-        input_texts = [
-            f"{str(target)} by {str(x)}" for x in candidate_chunks
+        input_texts = [str(target.predicate.sent)] + [
+            self._missing_subject_inserter.insert(target.predicate.sent, [target], [x]) for x in
+            candidates
         ]
 
-        results = self.perplexity.compute(model_id=self.model_id,
-                                          add_start_token=True,
-                                          predictions=input_texts)
+        baseline, *results = self._perplexity.compute(model_id=self._model_id,
+                                                      add_start_token=True,
+                                                      predictions=input_texts)["perplexities"]
+        _, *input_texts = input_texts
 
-        # TODO get proper cutoff
-        return [x for x, p in zip(candidates, results["perplexities"]) if p <= self.cutoff]
+        print(baseline, list(zip(input_texts, candidates, results)))
+
+        # We allow for slightly more perplexity than the baseline (i.e., no subject inserted)
+        output = [(x, p) for x, p in zip(candidates, results) if
+                  p <= self._perplexity_buffer * baseline]
+
+        output.sort(key=lambda x: x[1])
+
+        return [x for x, _ in output][:self._max_returned] or candidates

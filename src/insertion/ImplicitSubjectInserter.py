@@ -1,7 +1,7 @@
 from abc import ABC
 from typing import List
 
-from spacy.tokens import Span
+from spacy.tokens import Span, Token
 
 from missing_subject_detection.ImplicitSubjectDetection import ImplicitSubjectDetection
 
@@ -11,7 +11,7 @@ class ImplicitSubjectInserter(ABC):
     Pipeline step of inserting the subject into the target sentence.
     """
 
-    def insert(self, span: Span, targets: List[ImplicitSubjectDetection], subjects: List[str]) -> str:
+    def insert(self, span: Span, targets: List[ImplicitSubjectDetection], subjects: List[Token]) -> str:
         """
         Insert into the target sentence.
 

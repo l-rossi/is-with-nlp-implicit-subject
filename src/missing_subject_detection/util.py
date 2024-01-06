@@ -1,5 +1,7 @@
 from spacy.tokens import Token
 
+from util import ACTIVE_VOICE_SUBJ_DEPS
+
 
 def has_aux_pass(token: Token):
     """
@@ -10,5 +12,6 @@ def has_aux_pass(token: Token):
     """
     return "auxpass" in [x.dep_ for x in token.children]
 
+
 def has_explicit_subject(token: Token):
-    return any(c.dep_ == "agent" for c in token.children)
+    return any(c.dep_ in ACTIVE_VOICE_SUBJ_DEPS for c in token.children)

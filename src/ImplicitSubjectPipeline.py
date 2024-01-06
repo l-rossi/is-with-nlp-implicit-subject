@@ -10,7 +10,6 @@ from candidate_filtering.CandidateFilter import CandidateFilter
 from insertion.ImplicitSubjectInserter import ImplicitSubjectInserter
 from missing_subject_detection.ImplicitSubjectDetection import ImplicitSubjectDetection
 from missing_subject_detection.ImplicitSubjectDetector import ImplicitSubjectDetector
-from util import get_noun_chunk
 
 
 class ImplicitSubjectPipeline:
@@ -37,11 +36,23 @@ class ImplicitSubjectPipeline:
             print(*msg, **kwargs)
 
     def _apply_candidate_filters(self, targets: List[ImplicitSubjectDetection], candidates: List[Token]):
+        def _apply_filter(acc: List[Token], f: CandidateFilter):
+            prev_len = len(acc)
+            if prev_len == 1:
+                self._debug(f"Short circuiting  {f.__class__.__name__} with {acc}.")
+                return acc
+
+            intermediate_result = f.filter(target, acc)
+            self._debug(
+                f"Applied {f.__class__.__name__}, filtered {100 - 100 * len(intermediate_result) / prev_len :.2f}% of "
+                f"candidates and returned {intermediate_result}")
+            return intermediate_result
+
         for target in targets:
-            res = reduce(lambda acc, f: f.filter(target, acc), self._candidate_rankers, candidates)
+            res = reduce(_apply_filter, self._candidate_rankers, candidates)
             # TODO better defaults
             tok = res[0] if res else candidates[0]
-            yield str(get_noun_chunk(tok))
+            yield tok
 
     def apply(self, inspected_text: str, context: Optional[str] = None) -> str:
         """

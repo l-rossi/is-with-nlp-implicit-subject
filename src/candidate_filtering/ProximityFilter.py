@@ -1,8 +1,8 @@
 from typing import List
 
-from candidate_filtering.CandidateFilter import CandidateFilter
 from spacy.tokens import Token
 
+from candidate_filtering.CandidateFilter import CandidateFilter
 from missing_subject_detection.ImplicitSubjectDetection import ImplicitSubjectDetection
 
 
@@ -24,11 +24,17 @@ class ProximityFilter(CandidateFilter):
         if not candidates:
             return []
 
+        if len(candidates) == 1:
+            # short circuit to avoid problems with the imperative filter inserting new
+            # 'you' tokens (i.e., different docs.)
+            return candidates
+
         assert target.predicate.doc == candidates[
             0].doc, "The ProximityRanker requires targets and candidates to be from the same doc."
 
-        target_children = set(target.predicate.children) | {tok for c in target.predicate.children for tok in c.children if
-                                                  c.dep_ == "auxpass"}
+        target_children = set(target.predicate.children) | {tok for c in target.predicate.children for tok in c.children
+                                                            if
+                                                            c.dep_ == "auxpass"}
         return [min(candidates,
                     key=lambda c:
                     abs(c.i - target.predicate.i) +
