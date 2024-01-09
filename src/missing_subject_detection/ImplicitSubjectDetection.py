@@ -21,5 +21,5 @@ class ImplicitSubjectDetection:
     Class for holding detected implicit subjects (i.e., the lack of a subject, not the implicit subject itself).
     """
 
-    predicate: Token
+    token: Token
     type: ImplicitSubjectType

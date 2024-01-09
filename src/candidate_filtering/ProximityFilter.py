@@ -1,6 +1,6 @@
 from typing import List
 
-from spacy.tokens import Token
+from spacy.tokens import Token, Span
 
 from candidate_filtering.CandidateFilter import CandidateFilter
 from missing_subject_detection.ImplicitSubjectDetection import ImplicitSubjectDetection
@@ -15,7 +15,7 @@ class ProximityFilter(CandidateFilter):
 
     DEPENDANT_PENALTY = 999
 
-    def filter(self, target: ImplicitSubjectDetection, candidates: List[Token]) -> List[Token]:
+    def filter(self, target: ImplicitSubjectDetection, candidates: List[Token], context: Span) -> List[Token]:
         """
         Returns the physically closest candidate. At most one candidate is selected so this can be used
         at the end of a pipeline.
@@ -29,15 +29,15 @@ class ProximityFilter(CandidateFilter):
             # 'you' tokens (i.e., different docs.)
             return candidates
 
-        assert target.predicate.doc == candidates[
+        assert target.token.doc == candidates[
             0].doc, "The ProximityRanker requires targets and candidates to be from the same doc."
 
-        target_children = set(target.predicate.children) | {tok for c in target.predicate.children for tok in c.children
-                                                            if
-                                                            c.dep_ == "auxpass"}
+        target_children = set(target.token.children) | {tok for c in target.token.children for tok in c.children
+                                                        if
+                                                        c.dep_ == "auxpass"}
         return [min(candidates,
                     key=lambda c:
-                    abs(c.i - target.predicate.i) +
-                    (self.CATAPHORIC_PENALTY if c.i > target.predicate.i else 0) +
+                    abs(c.i - target.token.i) +
+                    (self.CATAPHORIC_PENALTY if c.i > target.token.i else 0) +
                     (self.DEPENDANT_PENALTY if c in target_children else 0)
                     )]

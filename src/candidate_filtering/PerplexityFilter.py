@@ -1,7 +1,7 @@
 from typing import List
 
 import evaluate
-from spacy.tokens import Token
+from spacy.tokens import Token, Span
 
 from candidate_filtering.CandidateFilter import CandidateFilter
 from insertion.ImplicitSubjectInserterImpl import ImplicitSubjectInserterImpl
@@ -10,7 +10,7 @@ from missing_subject_detection.ImplicitSubjectDetection import ImplicitSubjectDe
 
 class PerplexityFilter(CandidateFilter):
     """
-    Ranks candidates based on the perplexity of the generated sentence using a LLM.
+    Ranks candidates based on the perplexity of the generated sentence using an LLM.
 
     Disregards the larger context but good for filtering out semantically nonsensical candidates, e.g.,
     The letter is sent by [the rotation around the sun].
@@ -23,7 +23,7 @@ class PerplexityFilter(CandidateFilter):
         self._missing_subject_inserter = missing_subject_inserter or ImplicitSubjectInserterImpl()
         self._max_returned = max_returned
 
-    def filter(self, target: ImplicitSubjectDetection, candidates: List[Token]) -> List[Token]:
+    def filter(self, target: ImplicitSubjectDetection, candidates: List[Token], context: Span) -> List[Token]:
         """
         Filters out candidates based the sentences perplexity when compared to the complexity of the
         sentence without the inserted candidate.
@@ -31,8 +31,8 @@ class PerplexityFilter(CandidateFilter):
         if not candidates:
             return []
 
-        input_texts = [str(target.predicate.sent)] + [
-            self._missing_subject_inserter.insert(target.predicate.sent, [target], [x]) for x in
+        input_texts = [str(target.token.sent)] + [
+            self._missing_subject_inserter.insert(target.token.sent, [target], [x]) for x in
             candidates
         ]
 
@@ -41,7 +41,7 @@ class PerplexityFilter(CandidateFilter):
                                                       predictions=input_texts)["perplexities"]
         _, *input_texts = input_texts
 
-        print(baseline, list(zip(input_texts, candidates, results)))
+        # print(baseline, list(zip(candidates, results)))
 
         # We allow for slightly more perplexity than the baseline (i.e., no subject inserted)
         output = [(x, p) for x, p in zip(candidates, results) if

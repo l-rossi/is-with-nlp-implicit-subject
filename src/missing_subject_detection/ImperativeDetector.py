@@ -17,5 +17,5 @@ class ImperativeDetector(ImplicitSubjectDetector):
 
     def detect(self, span: Span) -> List[ImplicitSubjectDetection]:
         # TODO make sure verb is not linked by conj to non imperative
-        return [ImplicitSubjectDetection(predicate=token, type=ImplicitSubjectType.IMPERATIVE) for sent in span.sents for
+        return [ImplicitSubjectDetection(token=token, type=ImplicitSubjectType.IMPERATIVE) for sent in span.sents for
                 token in sent if token.tag_ == "VB" and not self._has_aux(token) and token.pos_ == "VERB"]

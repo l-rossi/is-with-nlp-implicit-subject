@@ -18,8 +18,9 @@ def main():
     # Omitting the verb from the sentence is also possible. Once omitted, it is no longer present.
 
     txt = """
-    The withdrawal of consent by the data subject shall not affect the lawfulness of processing by the controller based on consent before its withdrawal.
+     Depending on the results, additional questions are asked by you (or not).
     """
+
 
     """
     As soon as an offer is accepted, all other offers become invalid.
@@ -39,6 +40,12 @@ def main():
     # print(CandidateExtractorImpl().extract(doc))
 
     # print(doc.ents)
+
+    similarity_nlp = spacy.load("en_core_web_lg")
+    t1 = "The setup of your account starts with Blizzard checking whether you have a battle.net account."
+    t2 = "The setup of your account starts with you checking whether you have a battle.net account."
+
+    print(similarity_nlp(t1).similarity(similarity_nlp(t2)))
 
     for tok in doc:
         print(tok.text, tok.dep_, tok.tag_, tok.lemma_)

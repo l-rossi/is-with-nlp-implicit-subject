@@ -5,7 +5,7 @@ Source,Input Data,Gold Standard
 /synthetic/E_j01.txt,"Based on your job applications, new potential job offers are sent to you.","Based on your job applications, new potential job offers are sent to you by companies."
 /synthetic/E_j01.txt,A job interview can be negotiated.,A job interview can be negotiated by you.
 /synthetic/E_j04.txt,"As soon as an offer is accepted, all other offers become invalid.","As soon as an offer is accepted by you, all other offers become invalid."
-/synthetic/Example_3_8_order2cash.txt,"Once the raw materials have been obtained the warehouse & distribution department takes care of manufacturing the product.","Once the raw materials have been obtained by the warehouse & distribution department, the warehouse & distribution department takes care of manufacturing the product."
+/synthetic/Example_3_8_order2cash.txt,"Once the raw materials have been obtained, the warehouse & distribution department takes care of manufacturing the product.","Once the raw materials have been obtained by the warehouse & distribution department, the warehouse & distribution department takes care of manufacturing the product."
 /synthetic/G_g03.txt,The setup of your account starts with checking whether you have a battle.net account.,The setup of your account starts with Blizzard checking whether you have a battle.net account.
 /synthetic/G_j01.txt,"Up to 10 resources in parallel can be collected, some resources are more urgently needed than others.","Up to 10 resources in parallel can be collected by you, some resources are more urgently needed by you than others."
 /synthetic/G_j01.txt,"Whenever some milestones are reached, you are notified.","Whenever some milestones are reached by your bot, you are notified."

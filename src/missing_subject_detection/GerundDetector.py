@@ -13,5 +13,7 @@ class GerundDetector(ImplicitSubjectDetector):
     """
 
     def detect(self, span: Span) -> List[ImplicitSubjectDetection]:
-        return [ImplicitSubjectDetection(predicate=tok, type=ImplicitSubjectType.GERUND) for tok in span if
+        # TODO should probably ignore adverbial clause deps.
+
+        return [ImplicitSubjectDetection(token=tok, type=ImplicitSubjectType.GERUND) for tok in span if
                 tok.tag_ == "VBG" and not has_explicit_subject(tok) and not tok.dep_ == "amod"]

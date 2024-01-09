@@ -3,7 +3,7 @@ from functools import reduce
 from typing import List, Optional
 
 import spacy
-from spacy.tokens import Token
+from spacy.tokens import Token, Span
 
 from candidate_extraction.CandidateExtractor import CandidateExtractor
 from candidate_filtering.CandidateFilter import CandidateFilter
@@ -35,14 +35,14 @@ class ImplicitSubjectPipeline:
         if self._verbose:
             print(*msg, **kwargs)
 
-    def _apply_candidate_filters(self, targets: List[ImplicitSubjectDetection], candidates: List[Token]):
+    def _apply_candidate_filters(self, targets: List[ImplicitSubjectDetection], candidates: List[Token], context: Span):
         def _apply_filter(acc: List[Token], f: CandidateFilter):
             prev_len = len(acc)
             if prev_len == 1:
                 self._debug(f"Short circuiting  {f.__class__.__name__} with {acc}.")
                 return acc
 
-            intermediate_result = f.filter(target, acc)
+            intermediate_result = f.filter(target, acc, context)
             self._debug(
                 f"Applied {f.__class__.__name__}, filtered {100 - 100 * len(intermediate_result) / prev_len :.2f}% of "
                 f"candidates and returned {intermediate_result}")
@@ -50,7 +50,6 @@ class ImplicitSubjectPipeline:
 
         for target in targets:
             res = reduce(_apply_filter, self._candidate_rankers, candidates)
-            # TODO better defaults
             tok = res[0] if res else candidates[0]
             yield tok
 
@@ -73,10 +72,10 @@ class ImplicitSubjectPipeline:
 
         targets = dict()
         for detector in reversed(self._missing_subject_detectors):
-            # (ImplicitSubjectDetection are not hashable so we use the hashable predicate token as a unique key)
+            # (ImplicitSubjectDetection are not hashable, so we use the hashable predicate token as a unique key)
             # Detectors at the front of the list take precedence over those at the back.
             targets.update({
-                x.predicate: x for x in detector.detect(inspected_text_span)
+                x.token: x for x in detector.detect(inspected_text_span)
             })
         targets = list(targets.values())
 
@@ -88,7 +87,7 @@ class ImplicitSubjectPipeline:
         self._debug("Extracted the following candidates:\n", candidates, sep="")
         self._debug("-----")
 
-        subjects_for_insertion = list(self._apply_candidate_filters(targets, candidates))
+        subjects_for_insertion = list(self._apply_candidate_filters(targets, candidates, inspected_text_span))
 
         self._debug("Picked the following subjects for insertion:\n", *zip(targets, subjects_for_insertion), sep="")
 

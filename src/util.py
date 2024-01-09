@@ -130,7 +130,18 @@ def search_for_head(tok: Token):
     """
     Used to find the predicate of an object/subject.
     """
-    head = tok.head
-    while head.dep_ in AUX_DEPS:
+    head = tok
+    while head.dep_ in AUX_DEPS | OBJ_DEPS | NOMINAL_SUBJ_DEPS | {"prep"}:
+        head = head.head
+    return head
+
+
+def search_for_head_block_nouns(tok: Token):
+    """
+    Used to find the predicate of an object/subject.
+    """
+    head = tok
+    while head.dep_ in AUX_DEPS | OBJ_DEPS | NOMINAL_SUBJ_DEPS | {"prep"} and (
+            head.head is None or head.head.pos_ != "NOUN"):
         head = head.head
     return head
