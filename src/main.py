@@ -39,7 +39,12 @@ def main():
     n_correct = 0
 
     mask = ""
-    for i, (source, target, gs) in enumerate(list(load_gold_standard())[24:25]):
+    for i, (source, target, gs) in enumerate(list(load_gold_standard())[0:50]):
+
+        if i not in {6, 7, 10, 11, 21, 24, 30, 32, 43, 46, 47, 49}:
+            # testing gerunds
+            continue
+
         print(f"Enter {i}")
         print("Context:")
         print(source)

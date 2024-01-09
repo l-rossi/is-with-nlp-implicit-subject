@@ -1,7 +1,7 @@
 import spacy
 from spacy import displacy
 
-from insertion.pattern.inflect import verbs
+from insertion.pattern.inflect import verbs, lexeme
 
 
 def main():
@@ -18,9 +18,9 @@ def main():
     # Omitting the verb from the sentence is also possible. Once omitted, it is no longer present.
 
     txt = """
-     Depending on the results, additional questions are asked by you (or not).
+    After receiving a medal, you are happy.
+    It starts with receiving a medal.
     """
-
 
     """
     As soon as an offer is accepted, all other offers become invalid.
@@ -49,6 +49,8 @@ def main():
 
     for tok in doc:
         print(tok.text, tok.dep_, tok.tag_, tok.lemma_)
+
+    print(lexeme("be"))
 
     displacy.serve(doc, style="dep")
 

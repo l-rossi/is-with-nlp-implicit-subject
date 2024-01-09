@@ -38,3 +38,5 @@ https://docs.google.com/spreadsheets/d/1o92z018fu5IBF7pD2XGexKKM9XYjQSDHdDboLIzR
 - Capitalization for start of sentences is off if the sentence starts with a special character, i.e., a bullet for
   enumeration 
 
+### DependentOfSameSentenceFilter
+- wrongly filters "department" for process in example 8 of GS
