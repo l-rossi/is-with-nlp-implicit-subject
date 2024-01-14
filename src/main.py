@@ -1,4 +1,5 @@
 import spacy
+from dotenv import load_dotenv
 
 from ImplicitSubjectPipeline import ImplicitSubjectPipeline
 from candidate_extraction.CandidateExtracorImpl import CandidateExtractorImpl
@@ -14,6 +15,8 @@ from missing_subject_detection.NominalizedGerundWordlistDetector import Nominali
 from missing_subject_detection.PassiveDetector import PassiveDetector
 from util import load_gold_standard
 
+load_dotenv()
+
 
 def main():
     pipeline = ImplicitSubjectPipeline(
@@ -24,6 +27,7 @@ def main():
             ImperativeFilter(),
             PartOfSpeechFilter(),
             DependentOfSameSentenceFilter(),
+            # ChatGPTFilter(),
             PerplexityFilter(max_returned=10000),
             # SimilarityFilter(),
             CandidateTextOccurrenceFilter(),
@@ -40,10 +44,6 @@ def main():
 
     mask = ""
     for i, (source, target, gs) in enumerate(list(load_gold_standard())[0:50]):
-
-        if i not in {6, 7, 10, 11, 21, 24, 30, 32, 43, 46, 47, 49}:
-            # testing gerunds
-            continue
 
         print(f"Enter {i}")
         print("Context:")

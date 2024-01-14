@@ -87,7 +87,7 @@ class ImplicitSubjectPipeline:
         self._debug("Extracted the following candidates:\n", candidates, sep="")
         self._debug("-----")
 
-        subjects_for_insertion = list(self._apply_candidate_filters(targets, candidates, inspected_text_span))
+        subjects_for_insertion = list(self._apply_candidate_filters(targets, candidates, context_doc[:]))
 
         self._debug("Picked the following subjects for insertion:\n", *zip(targets, subjects_for_insertion), sep="")
 

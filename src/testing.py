@@ -1,8 +1,16 @@
 import spacy
+from nltk.stem import PorterStemmer
 from spacy import displacy
 
 from insertion.pattern.inflect import verbs, lexeme
 
+from dotenv import load_dotenv
+
+from missing_subject_detection.ImperativeDetector import ImperativeDetector
+from missing_subject_detection.NominalizedGerundWordlistDetector import NominalizedGerundWordlistDetector
+from missing_subject_detection.PassiveDetector import PassiveDetector
+
+load_dotenv()
 
 def main():
     ctx = """
@@ -18,8 +26,7 @@ def main():
     # Omitting the verb from the sentence is also possible. Once omitted, it is no longer present.
 
     txt = """
-    After receiving a medal, you are happy.
-    It starts with receiving a medal.
+    After submission by the employee, the request is sent for approval to the travel administration by the employee.
     """
 
     """
@@ -31,7 +38,7 @@ def main():
     nlp = spacy.load("en_core_web_trf")
     doc = nlp(txt)
 
-    print(verbs.find_lexeme("use"))
+    print(NominalizedGerundWordlistDetector().detect(doc[:]))
 
     # print(PassiveDetector().detect(doc[:]))
     # print(GerundDetector().detect(doc[:]))
@@ -40,6 +47,10 @@ def main():
     # print(CandidateExtractorImpl().extract(doc))
 
     # print(doc.ents)
+
+    stemmer = PorterStemmer()
+
+    print(stemmer.stem("withdrawal"))
 
     similarity_nlp = spacy.load("en_core_web_lg")
     t1 = "The setup of your account starts with Blizzard checking whether you have a battle.net account."

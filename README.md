@@ -23,6 +23,12 @@ to select it.
 
 Please use the root folder as your working directory.
 
+You will need an OpenAI API key environment variable (`OPENAI_API_KEY`) to use the ChatGPTFilter. You can provided in a `.env` file:
+
+```
+OPENAI_API_KEY=<Your Key>
+```
+
 ## Goldstandard
 
 https://docs.google.com/spreadsheets/d/1o92z018fu5IBF7pD2XGexKKM9XYjQSDHdDboLIzRwPQ/edit#gid=0
@@ -40,3 +46,24 @@ https://docs.google.com/spreadsheets/d/1o92z018fu5IBF7pD2XGexKKM9XYjQSDHdDboLIzR
 
 ### DependentOfSameSentenceFilter
 - wrongly filters "department" for process in example 8 of GS
+
+## Some Stuff to be deleted later
+TODO:
+-	Morphology for 
+-	If gerund is separated by comma from its head, it seems like no subject is allowed
+
+
+45 for example of insertion closer to predicate
+
+
+
+Example 24 bugged casing
+Example 24 gerund not needing 
+
+
+35 imperative too greedy
+
+Perplexity filter too strict, for example: codling moth pruned in 18. Assuming prior probability of generating "codling moth" is just very low (perplexity ration 427/159 !). ChatGPT 3.5 seems to be able to handle this though
+
+GERUNDS:
+6, 7, 10, 11, 21, 24, 30, 32, 43, 46, 47, 49

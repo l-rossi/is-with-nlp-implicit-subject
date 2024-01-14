@@ -13,6 +13,9 @@ class GerundInserter(SpecializedInserter):
     Functional decomposition is a bane on my existence.
     """
 
+    # TODO this seems a but sketchy
+    PREPOSITIONS_TAKING_GERUND = {"of", "with", "for", "at", "about", "against", "up", "to"}
+
     def accepts(self, subject_type: ImplicitSubjectType):
         """
         Accepts gerunds.
@@ -38,8 +41,7 @@ class GerundInserter(SpecializedInserter):
 
         cleaned_subj = SpecializedInserter._clean_subject(subj)
 
-        # TODO put this list somewhere else and find actual reasoning behind this
-        if target.token.head.text in {"of", "with", "for", "at", "about", "against", "up"}:
+        if target.token.head.text in GerundInserter.PREPOSITIONS_TAKING_GERUND:
             target_replacement = target.token.text_with_ws
         else:
             target_replacement = GerundInserter._conjugate(target.token, subj.morph) + target.token.whitespace_
