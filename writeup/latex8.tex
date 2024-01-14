@@ -1,0 +1,206 @@
+
+%
+%  $Description: Author guidelines and sample document in LaTeX 2.09$ 
+%
+%  $Author: ienne $
+%  $Date: 1995/09/15 15:20:59 $
+%  $Revision: 1.4 $
+%
+
+\documentclass[times, 10pt,twocolumn]{article} 
+\usepackage{latex8}
+\usepackage{times}
+\usepackage{hyperref}
+\usepackage{url}
+
+%\documentstyle[times,art10,twocolumn,latex8]{article}
+
+%------------------------------------------------------------------------- 
+% take the % away on next line to produce the final camera-ready version 
+\pagestyle{empty}
+
+%------------------------------------------------------------------------- 
+\begin{document}
+
+\title{Detection and Insertion of Implicit Subjects for Approaching Information System Challenges with Natural Language Processing}
+
+\author{Lukas Rossi}
+
+\maketitle
+\thispagestyle{empty}
+
+\begin{abstract}
+   TODO
+\end{abstract}
+
+
+
+%------------------------------------------------------------------------- 
+\Section{Problem Definition}
+Natural language often times allows for the omission of parts of a sentence
+if the omitted fragment is clear from context. In the english language a
+commonly omitted fragment is the agent of an action as in the sentence
+`The agent is omitted [by the author]'. We refer to this omitted agent as
+an \textit{implicit subject}. For clarity, it should be noted that an implicit
+subject is not the same thing as the grammatical subject of a sentence. When referring
+to a subject within this text, we are referring to implicit subject unless explicitly
+stated otherwise. It should
+also be noted that coreference resolution, i.e., determining if multiple words
+refer to the same entity, is a distinct problem from this and will not be
+discussed further here. 
+
+Though usually clear for a human reader, these implicit subjects can pose a problem
+for certain NLP tasks, for example when comparing two or more process descriptions.
+If both descriptions contain a fragment akin to `the data shall be kept up to date'
+a naive comparison will find the descriptions to match. The responsibility of who
+should `keep the data up to date' might differ though if for example one document
+is implicitly referring to the data subject and the other to the handling company.
+
+In the following, we will investigate how implicit subjects can be detected and replaced
+by explicit ones for the English language following a rule-based approach.
+
+
+%------------------------------------------------------------------------- 
+\Section{Related Work}
+
+
+
+%------------------------------------------------------------------------- 
+\Section{Methodology}
+\subsection{Background}\label{methodology:background}
+
+After a review of available literature we manually inspected documents related
+to process descriptions. In detail, we examined the GDPR \cite{gdpr} as an example
+of a normative document for other process descriptions and a set of synthetic process
+descriptions taken from \cite{NLP_bpm_data}. From this four principal occurrences of
+implicit subjects were identified:
+
+\begin{enumerate}
+   \item \textbf{The agent of a passive sentences}: The most common form of implicit
+   subject is found when using the passive voice. The english language allows for the
+   omission of the agent of a verb in the passive voice as is done in our initial example:
+   `The agent is omitted [by the author]'.
+   \item \textbf{Gerunds}: Another common class of implicit subjects are those accompanying
+   gerunds (verbs inflected to end on \textit{-ing}) as is the case in the sentence:
+   `[The author] omitting the subject is common.' 
+   \item \textbf{Nouns referring to processes}: Often times nouns referring to processes can also
+   be supplemented by a subject\footnote{Not in a grammatical sense but rather in a semantic sense.
+   The explicit replacement of the implicit version is technically an object.} as is the case in the
+   sentence `The omission of a subject [by the author] is possible'. As the boundaries of when a noun
+   can accept an agent are ill-defined we focus on a subset of these nouns, namely nominalized
+   gerunds, e.g., `The processing of data [by the controller] must be monitored'. As nominalized gerunds
+   are always deduced from a verb, they can generally be assumed to implicitly reference an agent, if 
+   the reference is not explicit. The important task of widening the class of inspected nouns is
+   left to future work.
+   \item \textbf{Imperatives}: Imperative verbs can also be considered as implicitly referring to
+   a subject, namely the reader of the text, i.e., `you' as can be seen in the sentence
+   `[You] omit the agent'.
+\end{enumerate}
+
+We do not claim this list to be exhaustive but found it to be sufficient to describe the inspected data.
+The implicit subject for each of these types can and must be deduced from the context in which the
+instance occurs.
+Each of these classes requires also differ in how the found subject is inserted into the corresponding
+sentence.
+
+\subsection{Pipeline}
+Our goal is to provide an end-to-end pipeline to first detect the absence of an explicit subject where one
+can be inserted, find the correct subject to insert from user provided context, and finally
+insert the identified subject into the corresponding sentence, creating again a well-formed sentence. 
+
+Based on these observations and goals we have devised a four step process. First, we identify detect
+instances of the types of implicit subjects outlined above. This instance will in the following be 
+referred to as the \textit{target}. In parallel to this, we create a list of possible
+candidates for insertion from the context. This list is created purely from the context without regard
+for the targeted implicit subject. In practice the set of candidates consists of all grammatical
+subjects and objects in the context as any of them might in theory be the searched for implicit subject.
+This step sacrifices precision for high recall.
+Only in the next step are the candidates run through an array of filters sensitive to the target.
+In theory, this filter chain may return any number of number of candidates. In practice though, it is
+designed in a way as to always provide exactly one candidate. Else we can conceptually pick at random.
+We will elaborate on the choice of filters in a subsequent section. % TODO more specific
+Lastly, this selected candidate must be inserted into the original sentence.
+
+
+\subsection{Candidate Extraction}
+% not 100% recall but probably only mention in the evaluation.
+Candidates are extracted by passing the context through a dependency parser and extracting every word that
+appears as either the subject or the object in a phrase. Each word is extracted alongside its dependents.
+We can this differentiate between for example the word flow appearing as the head of `the process flow'
+or appearing as the head of `a similar flow'. At this stage a very large number of false positives
+are provided as well as candidates that we do not want to use, for example due to them being a pronoun
+and thus providing little additional information without a subsequent pass of a coreference resolution
+algorithm.
+
+
+\subsection{Implicit Subject Detection}
+For each the classes mentioned in \ref{methodology:background} distinct extraction rules were developed.
+
+\subsubsection{Passive sentences}
+Using a part of speech tagger, we can extract verbs in the past participle. We remove verbs that
+already have an agent as a dependency and those that have a subject in the active voice.
+Though technically also verbs in the passive voice without subject we also remove those that
+serve as an adverbial modifier as they tend to not take an agent in natural speech.
+Further, there exists a set of passive verbs that in general do not take an agent.
+For example the construct `based on' qualifies as a verb in the passive voice without an agent,
+but cannot be logically assigned an agent.  
+
+\subsubsection{Gerunds}
+Similarly, again using a POS tagger, we can directly detect present participles and filter those
+out that already have a subject as a dependency. We further prune this set by removing gerunds that
+act as adverbial modifiers as their subject is the sentence fragment being modified. 
+
+
+\subsubsection{(Gerundive) Nouns}
+% \cite{pattern_library}
+To detect instances of gerundive nominalization, we search for nouns with suffix \textit{-ing}.
+We then inspect the stem obtained by removing this suffix. If this stem is in turn a verb, we can
+assume the original noun to be a nominalized gerund and be able to take a subject.
+Note how we must rely solely on the orthography of the stem. We thus use a predefined list of
+English verbs taken from \cite{pattern_library}.
+As we will see in the evaluation, this reliance on orthography can cause problems, for example
+with homographs.
+Note also that this approach may be generalized by using a general stemmer on the inspected noun instead
+of only removing the \textit{-ing} suffix. We found this approach to detect too many nouns though.
+
+
+% evaluation 
+
+% homograph problem
+
+\subsubsection{Imperative}
+Imperatives are again easily detected by a POS tagger. We simply filter for verbs in their base
+form and disregard those that have an auxiliary verb accompanying them.
+
+
+
+
+
+\subsection{Candidate Filtering}
+% Mention assembly methods
+Conceptually, the candidate filtering 
+
+
+
+
+\subsection{Insertion}
+
+
+
+
+%------------------------------------------------------------------------- 
+\Section{Evaluation and Discussion}
+
+
+
+%------------------------------------------------------------------------- 
+\Section{Outlook}
+
+
+
+% \nocite{ex1,ex2,ex3}
+\bibliographystyle{latex8}
+\bibliography{latex8}
+
+\end{document}
+
