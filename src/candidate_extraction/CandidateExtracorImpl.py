@@ -9,4 +9,4 @@ from util import OBJ_DEPS, SUBJ_DEPS
 class CandidateExtractorImpl(CandidateExtractor):
 
     def extract(self, context: Doc) -> List[Token]:
-        return [tok for tok in context if (tok.dep_ in SUBJ_DEPS or tok.dep_ in OBJ_DEPS) and tok.dep_ != "dative"]
+        return [tok for tok in context if (tok.dep_ in SUBJ_DEPS or tok.dep_ in OBJ_DEPS)]

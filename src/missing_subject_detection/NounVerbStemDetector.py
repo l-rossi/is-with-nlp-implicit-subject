@@ -1,14 +1,15 @@
 from typing import List
 
+from nltk.stem.porter import PorterStemmer
 from spacy.tokens import Span
 
 from missing_subject_detection.ImplicitSubjectDetection import ImplicitSubjectDetection, ImplicitSubjectType
 from missing_subject_detection.ImplicitSubjectDetector import ImplicitSubjectDetector
 
 
-class NominalizedGerundWordlistDetector(ImplicitSubjectDetector):
+class NounVerbStemDetector(ImplicitSubjectDetector):
     """
-    Detects nouns that accept a subject, more specifically cases of gerundive nominalization.
+    Detects nouns that have a verb as a stem.
     """
 
     def __init__(self):
@@ -16,15 +17,16 @@ class NominalizedGerundWordlistDetector(ImplicitSubjectDetector):
         with open("./data/external/en-verbs.txt", 'r', encoding="utf-8") as wf:
             self._verbs = {x.split(",")[0] for x in wf.readlines() if not x.startswith(";")}
 
+        self._stemmer = PorterStemmer()
+
     def detect(self, span: Span) -> List[ImplicitSubjectDetection]:
         """
-        Detects nouns that look like gerunds, for example processing, packing, trading...
-        Does not detect all nouns referring to an action.
+        Detects nouns that have a verb as stem
         """
         return [
             ImplicitSubjectDetection(token=tok, type=ImplicitSubjectType.NOMINALIZED_VERB) for tok in span if
-            tok.pos_ == "NOUN" and tok.text.endswith("ing") and tok.text.lower().removesuffix("ing") in self._verbs
-            and not NominalizedGerundWordlistDetector._has_explicit_subject(tok)
+            tok.pos_ == "NOUN" and self._stemmer.stem(tok.text) in self._verbs
+            and not NounVerbStemDetector._has_explicit_subject(tok) and not tok.dep_ == "compound"
         ]
 
     @staticmethod

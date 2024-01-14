@@ -34,6 +34,5 @@ class SimilarityFilter(CandidateFilter):
         sims = [benchmark.similarity(d) for d in docs]
         ret = list(zip(sims, candidates))
         ret.sort(key=lambda x: x[0], reverse=True)
-        print(ret)
         ret = list(map(lambda x: x[1], ret))
         return ret[:self._top_k] or candidates
