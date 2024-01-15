@@ -137,7 +137,7 @@ algorithm.
 For each the classes mentioned in \ref{methodology:background} distinct extraction rules were developed.
 
 \subsubsection{Passive sentences}
-Using a part of speech tagger, we can extract verbs in the past participle. We remove verbs that
+Using a part-of-speech tagger, we can extract verbs in the past participle. We remove verbs that
 already have an agent as a dependency and those that have a subject in the active voice.
 Though technically also verbs in the passive voice without subject we also remove those that
 serve as an adverbial modifier as they tend to not take an agent in natural speech.
@@ -170,16 +170,28 @@ of only removing the \textit{-ing} suffix. We found this approach to detect too 
 
 \subsubsection{Imperative}
 Imperatives are again easily detected by a POS tagger. We simply filter for verbs in their base
-form and disregard those that have an auxiliary verb accompanying them.
-
-
+form and disregard those that have an auxiliary verb accompanying them. 
 
 
 
 \subsection{Candidate Filtering}
 % Mention assembly methods
-Conceptually, the candidate filtering 
+Conceptually, the candidate filtering can be thought of as a structured ensemble model.
+Multiple filtering steps are chained together to produce a final output. In the following
+we will present some possible filters.
 
+
+\subsubsection{Imperative Filter}
+We begin with a simple filter to demonstrate the modus operandi of our filters in general, namely
+the imperative filter. If the target detection is an imperative, no elaborate
+search must be undertaken as the subject in question is always `you'. Thus, if an imperative
+is detected we can filter the list of candidates to only those whose text is `you', creating
+a new `you' candidate if needed. If the inspected target is not an imperative we simply
+pass on the entire set of candidates to the next filter in the chain. As this filter
+has virtually perfect recall, it is best placed at the beginning of the chain.
+
+
+\subsubsection{Part-of-Speech Filter}
 
 
 
