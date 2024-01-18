@@ -1,7 +1,8 @@
 import csv
+import json
 from typing import Tuple, Iterable, Set, List
 
-from spacy.tokens import Token, Span
+from spacy.tokens import Token, Span, Doc
 
 # Constants based on textacy's constants
 SUBJ_DEPS = {"agent", "csubj", "csubjpass", "expl", "nsubj", "nsubjpass"}
@@ -112,18 +113,17 @@ def get_noun_chunk(token: Token) -> Span:
     return token.doc[token.i: token.i + 1]
 
 
-def load_gold_standard(file_name='./data/evaluation/gold_standard.csv') -> Iterable[Tuple[str, str, str]]:
+def load_gold_standard(file_name='./data/evaluation/gold_standard.csv') -> Iterable[Tuple[str, str, str, List[str], List[str]]]:
     """
-    Loads the gold standard triplets.
+    Loads the gold standard.
     """
     with open(file_name, 'r', encoding="utf-8") as file:
         reader = csv.reader(file)
         next(reader, None)
-        for source, target, gs in reader:
+        for source, inp, gs, impl_subject, target in reader:
             with open(f"./data/external{source}", 'r', encoding="utf-8") as source_file:
                 source_txt = source_file.read().replace("\n", " ").replace("  ", " ")
-
-            yield source_txt, target, gs
+            yield source_txt, inp, gs, json.loads(impl_subject), json.loads(target)
 
 
 def search_for_head(tok: Token):
@@ -145,3 +145,48 @@ def search_for_head_block_nouns(tok: Token):
             head.head is None or head.head.pos_ != "NOUN"):
         head = head.head
     return head
+
+
+def has_aux_pass(token: Token):
+    """
+    TODO This is not actually a great way of detecting of the predicate 'needs' a subject as
+    for example: Impaled on a pike [by loyalists], Oliver Cromwell's head was paraded around London.
+    It seems to be a good heuristic though :/
+    (Sorry for the example)
+    """
+    return "auxpass" in [x.dep_ for x in token.children]
+
+
+def has_explicit_subject(token: Token):
+    return any(c.dep_ in ACTIVE_VOICE_SUBJ_DEPS for c in token.children)
+
+
+def find_conj_head(token: Token) -> Token:
+    """
+    Finds the head of a group of conjunctions.
+    """
+    head = token
+    while head.dep_ == "conj":
+        head = head.head
+    return head
+
+def dependency_trees_equal(doc1: Doc, doc2: Doc):
+    """
+    Checks if two docs are equivalent in terms of their dependency structure.
+
+    Note: This is not actually a technically correct implementation, but it works good enough for our purposes
+    """
+
+    sents1 = list(doc1.sents)
+    sents2 = list(doc2.sents)
+
+    if len(sents1) != len(sents2):
+        return False
+
+    for s1, s2 in zip(sents1, sents2):
+        toks1 = sorted((x for x in s1), key=lambda x: (x.text, x.dep_))
+        toks2 = sorted((x for x in s2), key=lambda x: (x.text, x.dep_))
+        if not all(x.dep_ == y.dep_ and x.text.lower() == y.text.lower() for x, y in zip(toks1, toks2)):
+            return False
+
+    return True

@@ -4,7 +4,7 @@ from spacy.tokens import Span
 
 from missing_subject_detection.ImplicitSubjectDetection import ImplicitSubjectDetection, ImplicitSubjectType
 from missing_subject_detection.ImplicitSubjectDetector import ImplicitSubjectDetector
-from missing_subject_detection.util import has_explicit_subject
+from util import has_explicit_subject
 
 
 class GerundDetector(ImplicitSubjectDetector):

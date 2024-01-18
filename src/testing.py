@@ -1,32 +1,43 @@
 import spacy
+from dotenv import load_dotenv
 from nltk.stem import PorterStemmer
 from spacy import displacy
 
-from insertion.pattern.inflect import verbs, lexeme
-
-from dotenv import load_dotenv
-
+from insertion.pattern.inflect import lexeme
+from missing_subject_detection.GerundDetector import GerundDetector
 from missing_subject_detection.ImperativeDetector import ImperativeDetector
 from missing_subject_detection.NominalizedGerundWordlistDetector import NominalizedGerundWordlistDetector
 from missing_subject_detection.PassiveDetector import PassiveDetector
+from util import load_gold_standard
 
 load_dotenv()
 
+
 def main():
     ctx = """
-    The various declaration documents all follow a similar process 
-    flow. After submission by the employee, the request is sent for
-    approval to the travel administration. If approved by the person, the request is
-    then forwarded to the budget owner and after that to the supervisor.
-    If the budget owner and supervisor are the same person, then only one 
-    of the these steps is taken. In some cases, the director also needs to approve
-    the request. Select an appropriate component.
     """
+    nlp = spacy.load("en_core_web_trf")
+
+    """detectors = [PassiveDetector(), ImperativeDetector(), GerundDetector(), NominalizedGerundWordlistDetector()]
+
+    for i, (source, target, gs, _, _) in enumerate(list(load_gold_standard())[:]):
+
+        targets = dict()
+        for detector in reversed(detectors):
+            # (ImplicitSubjectDetection are not hashable, so we use the hashable predicate token as a unique key)
+            # Detectors at the front of the list take precedence over those at the back.
+            targets.update({
+                x.token: x for x in detector.detect(nlp(target)[:])
+            })
+        targets = list(targets.values())
+        print([x.token for x in targets])"""
+
 
     # Omitting the verb from the sentence is also possible. Once omitted, it is no longer present.
 
     txt = """
-    After submission by the employee, the request is sent for approval to the travel administration by the employee.
+   If you do not go to the service, you are fined by the police after 30 days.
+   The data is kept up to date by me for 30 days.
     """
 
     """
@@ -35,7 +46,6 @@ def main():
     Several requests can be submitted independently of each other.
     """
 
-    nlp = spacy.load("en_core_web_trf")
     doc = nlp(txt)
 
     print(NominalizedGerundWordlistDetector().detect(doc[:]))
@@ -59,7 +69,7 @@ def main():
     print(similarity_nlp(t1).similarity(similarity_nlp(t2)))
 
     for tok in doc:
-        print(tok.text, tok.dep_, tok.tag_, tok.lemma_)
+        print(tok.text, tok.dep_, tok.tag_, tok.lemma_, tok.pos_)
 
     print(lexeme("be"))
 

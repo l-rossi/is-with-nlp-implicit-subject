@@ -14,9 +14,9 @@ class SimilarityFilter(CandidateFilter):
     Tries to judge
     """
 
-    def __init__(self, missing_subject_inserter: ImplicitSubjectInserter = None, top_k=10, use_context=False):
+    def __init__(self, missing_subject_inserter: ImplicitSubjectInserter = None, top_k=10, use_context=False, model="en_use_md"):
         self._missing_subject_inserter = missing_subject_inserter or ImplicitSubjectInserterImpl()
-        self._nlp = spacy.load("en_core_web_lg")
+        self._nlp = spacy.load(model)
         self._top_k = top_k
         self._use_context = use_context
 

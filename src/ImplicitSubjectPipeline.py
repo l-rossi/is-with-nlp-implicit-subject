@@ -30,6 +30,20 @@ class ImplicitSubjectPipeline:
         self._missing_subject_inserter = missing_subject_inserter
         self._verbose = verbose
         self._nlp = spacy.load("en_core_web_sm" if fast else "en_core_web_trf")
+        self._last_detections = None
+        self._last_selected_candidates = None
+
+    def last_selected_candidates(self):
+        """
+        Returns the last selected candidates. Useful for evaluation.
+        """
+        return self._last_selected_candidate
+
+    def last_detections(self):
+        """
+        Returns the last implicit subject detections. Useful for evaluation.
+        """
+        return self._last_detections
 
     def _debug(self, *msg, **kwargs):
         if self._verbose:
@@ -78,6 +92,7 @@ class ImplicitSubjectPipeline:
                 x.token: x for x in detector.detect(inspected_text_span)
             })
         targets = list(targets.values())
+        self._last_detections = targets
 
         self._debug("Detected the following targets:\n", targets, sep="")
         self._debug("-----")
@@ -90,6 +105,7 @@ class ImplicitSubjectPipeline:
         subjects_for_insertion = list(self._apply_candidate_filters(targets, candidates, context_doc[:]))
 
         self._debug("Picked the following subjects for insertion:\n", *zip(targets, subjects_for_insertion), sep="")
+        self._last_selected_candidate = subjects_for_insertion
 
         resolved = self._missing_subject_inserter.insert(inspected_text_span, targets, subjects_for_insertion)
 
