@@ -2,6 +2,7 @@ import warnings
 from collections import defaultdict
 from typing import List
 
+import openai
 from openai import OpenAI
 from spacy.tokens import Token, Span
 
@@ -43,24 +44,28 @@ Which of the following sentences is most fitting? Provide only the sentence.
 
 {sentences_str}"""
 
-        completion = self._client.chat.completions.create(
-            model=self._model,
-            temperature=0,  # better replicability
-            messages=[
-                {"role": "user", "content": prompt}
-            ]
-        )
+        try:
+            completion = self._client.chat.completions.create(
+                model=self._model,
+                temperature=0,  # better replicability
+                messages=[
+                    {"role": "user", "content": prompt}
+                ]
+            )
 
-        res = completion.choices[0].message.content.strip()
+            res = completion.choices[0].message.content.strip()
 
-        print(prompt)
-        print(completion)
+            print(prompt)
+            print(completion)
 
-        if res not in sentence_to_candidate_mapping:
-            warnings.warn(
-                f"ChatGPT produced a sentence that is not part of of the provided sentences: '{res}'. "
-                f"You are a bad prompt engineer!")
+            if res not in sentence_to_candidate_mapping:
+                warnings.warn(
+                    f"ChatGPT produced a sentence that is not part of of the provided sentences: '{res}'. "
+                    f"You are a bad prompt engineer!")
 
-        print(sentence_to_candidate_mapping[res])
+            print(sentence_to_candidate_mapping[res])
 
-        return sentence_to_candidate_mapping[res] or candidates
+            return sentence_to_candidate_mapping[res] or candidates
+        except openai.BadRequestError as e:
+            warnings.warn(f"Failed to generate issue request to OpenAI with error {e}.")
+            return candidates

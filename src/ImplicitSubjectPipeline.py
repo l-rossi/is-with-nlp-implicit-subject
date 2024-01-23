@@ -1,6 +1,6 @@
 import warnings
 from functools import reduce
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 import spacy
 from spacy.tokens import Token, Span
@@ -32,18 +32,25 @@ class ImplicitSubjectPipeline:
         self._nlp = spacy.load("en_core_web_sm" if fast else "en_core_web_trf")
         self._last_detections = None
         self._last_selected_candidates = None
+        self._last_log = None
 
     def last_selected_candidates(self):
         """
         Returns the last selected candidates. Useful for evaluation.
         """
-        return self._last_selected_candidate
+        return self._last_selected_candidates
 
     def last_detections(self):
         """
         Returns the last implicit subject detections. Useful for evaluation.
         """
         return self._last_detections
+
+    def last_filter_log(self):
+        """
+        Returns a log of the candidate filter mechanism. Useful for evaluation.
+        """
+        return self._last_log
 
     def _debug(self, *msg, **kwargs):
         if self._verbose:
@@ -62,10 +69,17 @@ class ImplicitSubjectPipeline:
                 f"candidates and returned {intermediate_result}")
             return intermediate_result
 
+        def _logged_apply(acc: Tuple[List[Tuple[Optional[CandidateFilter], List[Token]]], List[Token]],
+                          f: CandidateFilter):
+            _log, _acc = acc
+            _res = _apply_filter(_acc, f)
+            _log.append((f, _res))  # very functional :p
+            return _log, _res
+
         for target in targets:
-            res = reduce(_apply_filter, self._candidate_rankers, candidates)
+            log, res = reduce(_logged_apply, self._candidate_rankers, ([(None, candidates)], candidates))
             tok = res[0] if res else candidates[0]
-            yield tok
+            yield tok, log
 
     def apply(self, inspected_text: str, context: Optional[str] = None) -> str:
         """
@@ -102,10 +116,17 @@ class ImplicitSubjectPipeline:
         self._debug("Extracted the following candidates:\n", candidates, sep="")
         self._debug("-----")
 
-        subjects_for_insertion = list(self._apply_candidate_filters(targets, candidates, context_doc[:]))
+        filter_res = self._apply_candidate_filters(targets, candidates, context_doc[:])
+        log = []
+        subjects_for_insertion = []
+        for t, l in filter_res:
+            log.append(l)
+            subjects_for_insertion.append(t)
+
+        self._last_log = list(zip(targets, log))
 
         self._debug("Picked the following subjects for insertion:\n", *zip(targets, subjects_for_insertion), sep="")
-        self._last_selected_candidate = subjects_for_insertion
+        self._last_selected_candidates = subjects_for_insertion
 
         resolved = self._missing_subject_inserter.insert(inspected_text_span, targets, subjects_for_insertion)
 

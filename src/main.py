@@ -3,11 +3,13 @@ from dotenv import load_dotenv
 
 from ImplicitSubjectPipeline import ImplicitSubjectPipeline
 from candidate_extraction.CandidateExtracorImpl import CandidateExtractorImpl
-from candidate_filtering.CandidateTextOccurrenceFilter import CandidateTextOccurrenceFilter
+from candidate_filtering.CandidateTextOccurrenceFilter import    CandidateTextOccurrenceFilter
+from candidate_filtering.ChatGPTFilter import ChatGPTFilter
 from candidate_filtering.DependentOfSameSentenceFilter import DependentOfSameSentenceFilter
 from candidate_filtering.ImperativeFilter import ImperativeFilter
 from candidate_filtering.PartOfSpeechFilter import PartOfSpeechFilter
 from candidate_filtering.PerplexityFilter import PerplexityFilter
+from candidate_filtering.SimilarityFilter import SimilarityFilter
 from evaluation.evaluation import StatAcc, evaluate_detection
 from insertion.ImplicitSubjectInserterImpl import ImplicitSubjectInserterImpl
 from missing_subject_detection.GerundDetector import GerundDetector
@@ -46,7 +48,7 @@ def main():
     detection_accumulator = StatAcc()
 
     mask = ""
-    for i, (source, inp, gs, impl_subjects, targets) in enumerate(list(load_gold_standard())[:50]):
+    for i, (source, inp, gs, impl_subjects, targets) in enumerate(list(load_gold_standard())[:]):
 
         print(f"Enter {i}")
         print("Context:")
@@ -61,8 +63,10 @@ def main():
             context=source
         )
 
-        detection_accumulator.apply(
-            evaluate_detection(targets, [x.token.text for x in pipeline.last_detections()]))
+        current_stats = evaluate_detection(targets, [x.token.text for x in pipeline.last_detections()])
+        detection_accumulator.apply(current_stats)
+        print(
+            f"Detection stats: Precision {current_stats.precision() * 100 :.2f}%, Recall {current_stats.recall() * 100 :.2f}%")
 
         gs_doc = similarity_nlp(gs)
         generated_doc = similarity_nlp(generated)

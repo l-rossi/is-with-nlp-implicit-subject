@@ -32,8 +32,6 @@ class ImplicitSubjectInserterImpl(ImplicitSubjectInserter):
 
         list_tokens = list(token.text_with_ws for token in span)
 
-        # TODO why implement against an interface for this class but simply use a big if statement with methods for the
-        # other insertion.
         for target, subj in zip(targets, subjects):
             inserter = next((x for x in self._sub_inserters if x.accepts(target.type)), None)
             if inserter is None:

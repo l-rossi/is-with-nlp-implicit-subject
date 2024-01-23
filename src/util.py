@@ -158,6 +158,9 @@ def has_aux_pass(token: Token):
 
 
 def has_explicit_subject(token: Token):
+    """
+    Determines if a potential detection should be discarded as it already has an explicit subject.
+    """
     return any(c.dep_ in ACTIVE_VOICE_SUBJ_DEPS for c in token.children)
 
 

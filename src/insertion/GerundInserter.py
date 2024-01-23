@@ -39,12 +39,43 @@ class GerundInserter(SpecializedInserter):
         Feel free to guess.
         """
 
+        insertion_point = target.token
+        while pots := [x for x in insertion_point.lefts if
+                       x.dep_ == "advmod" and x.tag_ == "ADV" and all(y.dep_ != "advcl" for y in x.children)]:
+            # I am just assuming that the advmod tree is in-order
+            insertion_point = min(pots, key=lambda x: x.i)
+
         cleaned_subj = SpecializedInserter._clean_subject(subj)
 
         if target.token.head.text in GerundInserter.PREPOSITIONS_TAKING_GERUND:
-            target_replacement = target.token.text_with_ws
+            target_replacement = target.token.text
         else:
-            target_replacement = GerundInserter._conjugate(target.token, subj.morph) + target.token.whitespace_
+            target_replacement = GerundInserter._conjugate(target.token, subj.morph)
+
+        if insertion_point == target.token:
+            if insertion_point.is_sent_start:
+                list_tokens[
+                    insertion_point.i - span.start] = SpecializedInserter._upper_case_first(
+                    cleaned_subj) + " " + SpecializedInserter._lower_case_first(
+                    target_replacement) + insertion_point.whitespace_
+            else:
+                list_tokens[insertion_point.i - span.start] = SpecializedInserter._lower_case_first(
+                    cleaned_subj).rstrip() + " " + target_replacement + insertion_point.whitespace_
+        else:
+            if insertion_point.is_sent_start:
+                list_tokens[
+                    insertion_point.i - span.start] = SpecializedInserter._upper_case_first(
+                    cleaned_subj) + " " + SpecializedInserter._lower_case_first(
+                    insertion_point.text) + insertion_point.whitespace_
+            else:
+                list_tokens[
+                    insertion_point.i - span.start] = SpecializedInserter._lower_case_first(
+                    target_replacement) + " " + insertion_point.text + insertion_point.whitespace_
+            list_tokens[target.token.i - span.start] = target_replacement + target.token.whitespace_
+
+        """
+
+
 
         if target.token.is_sent_start:
             list_tokens[target.token.i - span.start] = SpecializedInserter._upper_case_first(
@@ -53,4 +84,4 @@ class GerundInserter(SpecializedInserter):
         else:
             list_tokens[target.token.i - span.start] = SpecializedInserter._lower_case_first(
                 cleaned_subj).rstrip() + " " + SpecializedInserter._lower_case_first(
-                target_replacement)
+                target_replacement)"""

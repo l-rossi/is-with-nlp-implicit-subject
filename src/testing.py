@@ -4,11 +4,7 @@ from nltk.stem import PorterStemmer
 from spacy import displacy
 
 from insertion.pattern.inflect import lexeme
-from missing_subject_detection.GerundDetector import GerundDetector
-from missing_subject_detection.ImperativeDetector import ImperativeDetector
 from missing_subject_detection.NominalizedGerundWordlistDetector import NominalizedGerundWordlistDetector
-from missing_subject_detection.PassiveDetector import PassiveDetector
-from util import load_gold_standard
 
 load_dotenv()
 
@@ -32,13 +28,11 @@ def main():
         targets = list(targets.values())
         print([x.token for x in targets])"""
 
-
     # Omitting the verb from the sentence is also possible. Once omitted, it is no longer present.
 
     txt = """
-   If you do not go to the service, you are fined by the police after 30 days.
-   The data is kept up to date by me for 30 days.
-    """
+Where the data subject makes the request by electronic form means, the information shall be provided by electronic means where possible, unless otherwise requested by the data subject.
+"""
 
     """
     As soon as an offer is accepted, all other offers become invalid.

@@ -89,15 +89,15 @@ target/
 # Mypy cache
 .mypy_cache/
 /venv/
-/writeup/latex8.fls
-/writeup/latex8.log
-/writeup/latex8.synctex.gz
-/writeup/latex8.pdf
-/writeup/latex8.sty
-/writeup/latex8.bst
-/writeup/latex8.aux
-/writeup/latex8.blg
-/writeup/latex8.out
-/writeup/Latex8.txt
-/writeup/latex8.fdb_latexmk
-/writeup/latex8.bbl
+/documentation/writeup/latex8.fls
+/documentation/writeup/latex8.log
+/documentation/writeup/latex8.synctex.gz
+/documentation/writeup/latex8.pdf
+/documentation/writeup/latex8.sty
+/documentation/writeup/latex8.bst
+/documentation/writeup/latex8.aux
+/documentation/writeup/latex8.blg
+/documentation/writeup/latex8.out
+/documentation/writeup/Latex8.txt
+/documentation/writeup/latex8.fdb_latexmk
+/documentation/writeup/latex8.bbl

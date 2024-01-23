@@ -1,7 +1,6 @@
+import math
 from collections import defaultdict
 from typing import List
-
-from spacy.tokens import Doc
 
 
 class StatAcc:
@@ -28,12 +27,16 @@ class StatAcc:
         """
         Returns the current precision.
         """
+        if self.tp + self.fp == 0:
+            return math.nan
         return self.tp / (self.tp + self.fp)
 
     def recall(self) -> float:
         """
         Returns the current recall.
         """
+        if self.tp + self.fp == 0:
+            return math.nan
         return self.tp / (self.tp + self.fn)
 
     def __str__(self):
@@ -64,4 +67,3 @@ def evaluate_detection(expected: List[str], actual: List[str]) -> StatAcc:
         acc.fn += max(0, exp - act)
 
     return acc
-

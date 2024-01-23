@@ -16,4 +16,4 @@ class PartOfSpeechFilter(CandidateFilter):
         Filters everything but nouns, numbers and 'you'.
         Numbers are never the correct target in the gold standard but theoretically, they should be able to be.
         """
-        return [c for c in candidates if c.pos_ == "NOUN" or c.pos_ == "NUM" or c.text.lower() == "you"] or candidates
+        return [c for c in candidates if c.pos_ in {"PROPN", "NOUN", "NUM"} or c.text.lower() == "you"] or candidates
