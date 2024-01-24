@@ -21,7 +21,7 @@ class ChatGPTFilter(CandidateFilter):
 
     def filter(self, target: ImplicitSubjectDetection, candidates: List[Token], context: Span) -> List[Token]:
         """
-        Asks ChatGPT to
+        Asks ChatGPT to pick the best candidate.
         """
 
         sentence_to_candidate_mapping = defaultdict(list)

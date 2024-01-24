@@ -29,7 +29,7 @@ class ImperativeInserter(SpecializedInserter):
         # As soon as you have an account, [you] log into it.
         insertion_point = target.token
         while pots := [x for x in insertion_point.lefts if
-                       x.dep_ == "advmod" and x.tag_ == "ADV" and all(y.dep_ != "advcl" for y in x.children)]:
+                       x.dep_ == "advmod" and x.pos_ == "ADV" and all(y.dep_ != "advcl" for y in x.children)]:
             # I am just assuming that the advmod tree is in-order
             insertion_point = min(pots, key=lambda x: x.i)
 

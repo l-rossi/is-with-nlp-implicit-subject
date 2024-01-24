@@ -3,14 +3,12 @@ from dotenv import load_dotenv
 
 from ImplicitSubjectPipeline import ImplicitSubjectPipeline
 from candidate_extraction.CandidateExtracorImpl import CandidateExtractorImpl
-from candidate_filtering.CandidateTextOccurrenceFilter import    CandidateTextOccurrenceFilter
-from candidate_filtering.ChatGPTFilter import ChatGPTFilter
+from candidate_filtering.CandidateTextOccurrenceFilter import CandidateTextOccurrenceFilter
 from candidate_filtering.DependentOfSameSentenceFilter import DependentOfSameSentenceFilter
 from candidate_filtering.ImperativeFilter import ImperativeFilter
 from candidate_filtering.PartOfSpeechFilter import PartOfSpeechFilter
 from candidate_filtering.PerplexityFilter import PerplexityFilter
-from candidate_filtering.SimilarityFilter import SimilarityFilter
-from evaluation.evaluation import StatAcc, evaluate_detection
+from evaluation.evaluation import ClassificationStatisticsAccumulator, evaluate_detection, FilterFailAccumulator
 from insertion.ImplicitSubjectInserterImpl import ImplicitSubjectInserterImpl
 from missing_subject_detection.GerundDetector import GerundDetector
 from missing_subject_detection.ImperativeDetector import ImperativeDetector
@@ -45,7 +43,8 @@ def main():
     n_inspected = 0
     n_correct = 0
 
-    detection_accumulator = StatAcc()
+    detection_accumulator = ClassificationStatisticsAccumulator()
+    filter_stats_accumulator = FilterFailAccumulator()
 
     mask = ""
     for i, (source, inp, gs, impl_subjects, targets) in enumerate(list(load_gold_standard())[:]):
@@ -64,7 +63,10 @@ def main():
         )
 
         current_stats = evaluate_detection(targets, [x.token.text for x in pipeline.last_detections()])
+
         detection_accumulator.apply(current_stats)
+        filter_stats_accumulator.apply(pipeline.last_filter_log(), targets, impl_subjects)
+
         print(
             f"Detection stats: Precision {current_stats.precision() * 100 :.2f}%, Recall {current_stats.recall() * 100 :.2f}%")
 
@@ -89,6 +91,9 @@ def main():
         print("Actual:  ", generated)
         print("Similarity: ", similarity)
         print(f"dep equality: {dependency_trees_equal(gs_doc, generated_doc)}")
+
+        print("Filter failures by filter:", filter_stats_accumulator.counts())
+        print(f"Correctly filtered: {filter_stats_accumulator.performance_str()}")
 
         print("-" * 9)
 

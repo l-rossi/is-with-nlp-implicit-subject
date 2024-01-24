@@ -34,7 +34,7 @@
   author       = {Dan Jurafsky and James H. Martin},
   title        = {Speech and Language Processing},
   draft        = {3},
-  year      = {2023},
+  year         = {2023},
   howpublished = {\url{https://web.stanford.edu/~jurafsky/slp3/}}
 }
 
@@ -49,25 +49,25 @@
 }
 
 @article{gpt2,
-  title={Language Models are Unsupervised Multitask Learners},
-  author={Radford, Alec and Wu, Jeff and Child, Rewon and Luan, David and Amodei, Dario and Sutskever, Ilya},
-  year={2019}
+  title  = {Language Models are Unsupervised Multitask Learners},
+  author = {Radford, Alec and Wu, Jeff and Child, Rewon and Luan, David and Amodei, Dario and Sutskever, Ilya},
+  year   = {2019}
 }
 
 @book{python,
- author = {Van Rossum, Guido and Drake, Fred L.},
- title = {Python 3 Reference Manual},
- year = {2009},
- isbn = {1441412697},
- publisher = {CreateSpace},
- address = {Scotts Valley, CA}
+  author    = {Van Rossum, Guido and Drake, Fred L.},
+  title     = {Python 3 Reference Manual},
+  year      = {2009},
+  isbn      = {1441412697},
+  publisher = {CreateSpace},
+  address   = {Scotts Valley, CA}
 }
 
 @article{spacy,
-author = {Honnibal, Matthew and Montani, Ines and Van Landeghem, Sofie and Boyd, Adriane},
-doi = {10.5281/zenodo.1212303},
-title = {{spaCy: Industrial-strength Natural Language Processing in Python}},
-year = {2020}
+  author = {Honnibal, Matthew and Montani, Ines and Van Landeghem, Sofie and Boyd, Adriane},
+  doi    = {10.5281/zenodo.1212303},
+  title  = {{spaCy: Industrial-strength Natural Language Processing in Python}},
+  year   = {2020}
 }
 
 @misc{openai:2022,
@@ -75,49 +75,94 @@ year = {2020}
   title        = {GPT-3.5 Turbo},
   howpublished = {\url{https://www.openai.com/}},
   year         = {2022},
-  note         = {Accessed: January 22, 2024},
+  note         = {Accessed: January 22, 2024}
 }
 
-@ARTICLE{kg_completion,
-  author={Chen, Zhe and Wang, Yuehan and Zhao, Bin and Cheng, Jing and Zhao, Xin and Duan, Zongtao},
-  journal={IEEE Access}, 
-  title={Knowledge Graph Completion: A Review}, 
-  year={2020},
-  volume={8},
-  number={},
-  pages={192435-192456},
-  doi={10.1109/ACCESS.2020.3030076}
+@article{kg_completion,
+  author  = {Chen, Zhe and Wang, Yuehan and Zhao, Bin and Cheng, Jing and Zhao, Xin and Duan, Zongtao},
+  journal = {IEEE Access},
+  title   = {Knowledge Graph Completion: A Review},
+  year    = {2020},
+  volume  = {8},
+  number  = {},
+  pages   = {192435-192456},
+  doi     = {10.1109/ACCESS.2020.3030076}
 }
 
-@InProceedings{sai_deviations_regulations,
-author="Sai, Catherine
-and Winter, Karolin
-and Fernanda, Elsa
-and Rinderle-Ma, Stefanie",
-editor="Indulska, Marta
-and Reinhartz-Berger, Iris
-and Cetina, Carlos
-and Pastor, Oscar",
-title="Detecting Deviations Between External and Internal Regulatory Requirements for Improved Process Compliance Assessment",
-booktitle="Advanced Information Systems Engineering",
-year="2023",
-publisher="Springer Nature Switzerland",
-address="Cham",
-pages="401--416",
-abstract="In order to assure process compliance, a wide range of regulatory requirements from various documents must be considered. These external requirements are typically transformed into internal requirements such as policies or handbooks for process compliance in an organization. The transformation is mostly done manually, without the ability of a digitalized quality check. To support users, this work provides a semi-automatic approach based on state-of-the-art NLP algorithms. We first provide a list of Regulatory Compliance Assessment Solution Requirements (RCASR) based on which deviations between external and internal textual requirements can be detected and the root cause of the deviations can be identified. This detailed analysis helps to find mitigation actions in order to improve process compliance. The proposed approach is evaluated based on two Case studies with greatly varying regulatory documents and their realizations by companies. The evaluation demonstrates the feasibility of the approach and provides further insights into the applicability of NLP-based automation techniques in the field of process compliance assurance and management.",
-isbn="978-3-031-34560-9"
+@inproceedings{sai_deviations_regulations,
+  author    = {Sai, Catherine
+               and Winter, Karolin
+               and Fernanda, Elsa
+               and Rinderle-Ma, Stefanie},
+  editor    = {Indulska, Marta
+               and Reinhartz-Berger, Iris
+               and Cetina, Carlos
+               and Pastor, Oscar},
+  title     = {Detecting Deviations Between External and Internal Regulatory Requirements for Improved Process Compliance Assessment},
+  booktitle = {Advanced Information Systems Engineering},
+  year      = {2023},
+  publisher = {Springer Nature Switzerland},
+  address   = {Cham},
+  pages     = {401--416},
+  abstract  = {In order to assure process compliance, a wide range of regulatory requirements from various documents must be considered. These external requirements are typically transformed into internal requirements such as policies or handbooks for process compliance in an organization. The transformation is mostly done manually, without the ability of a digitalized quality check. To support users, this work provides a semi-automatic approach based on state-of-the-art NLP algorithms. We first provide a list of Regulatory Compliance Assessment Solution Requirements (RCASR) based on which deviations between external and internal textual requirements can be detected and the root cause of the deviations can be identified. This detailed analysis helps to find mitigation actions in order to improve process compliance. The proposed approach is evaluated based on two Case studies with greatly varying regulatory documents and their realizations by companies. The evaluation demonstrates the feasibility of the approach and provides further insights into the applicability of NLP-based automation techniques in the field of process compliance assurance and management.},
+  isbn      = {978-3-031-34560-9}
 }
 
 @inproceedings{banko,
-author = {Banko, Michele and Cafarella, Michael J. and Soderland, Stephen and Broadhead, Matt and Etzioni, Oren},
-title = {Open information extraction from the web},
-year = {2007},
-publisher = {Morgan Kaufmann Publishers Inc.},
-address = {San Francisco, CA, USA},
-abstract = {Traditionally, Information Extraction (IE) has focused on satisfying precise, narrow, pre-specified requests from small homogeneous corpora (e.g., extract the location and time of seminars from a set of announcements). Shifting to a new domain requires the user to name the target relations and to manually create new extraction rules or hand-tag new training examples. This manual labor scales linearly with the number of target relations.This paper introduces Open IE (OIE), a new extraction paradigm where the system makes a single data-driven pass over its corpus and extracts a large set of relational tuples without requiring any human input. The paper also introduces TEXTRUNNER, a fully implemented, highly scalable OIE system where the tuples are assigned a probability and indexed to support efficient extraction and exploration via user queries.We report on experiments over a 9,000,000 Web page corpus that compare TEXTRUNNER with KNOWITALL, a state-of-the-art Web IE system. TEXTRUNNER achieves an error reduction of 33\% on a comparable set of extractions. Furthermore, in the amount of time it takes KNOWITALL to perform extraction for a handful of pre-specified relations, TEXTRUNNER extracts a far broader set of facts reflecting orders of magnitude more relations, discovered on the fly. We report statistics on TEXTRUNNER's 11,000,000 highest probability tuples, and show that they contain over 1,000,000 concrete facts and over 6,500,000 more abstract assertions.},
-booktitle = {Proceedings of the 20th International Joint Conference on Artifical Intelligence},
-pages = {2670–2676},
-numpages = {7},
-location = {Hyderabad, India},
-series = {IJCAI'07}
+  author    = {Banko, Michele and Cafarella, Michael J. and Soderland, Stephen and Broadhead, Matt and Etzioni, Oren},
+  title     = {Open information extraction from the web},
+  year      = {2007},
+  publisher = {Morgan Kaufmann Publishers Inc.},
+  address   = {San Francisco, CA, USA},
+  abstract  = {Traditionally, Information Extraction (IE) has focused on satisfying precise, narrow, pre-specified requests from small homogeneous corpora (e.g., extract the location and time of seminars from a set of announcements). Shifting to a new domain requires the user to name the target relations and to manually create new extraction rules or hand-tag new training examples. This manual labor scales linearly with the number of target relations.This paper introduces Open IE (OIE), a new extraction paradigm where the system makes a single data-driven pass over its corpus and extracts a large set of relational tuples without requiring any human input. The paper also introduces TEXTRUNNER, a fully implemented, highly scalable OIE system where the tuples are assigned a probability and indexed to support efficient extraction and exploration via user queries.We report on experiments over a 9,000,000 Web page corpus that compare TEXTRUNNER with KNOWITALL, a state-of-the-art Web IE system. TEXTRUNNER achieves an error reduction of 33\% on a comparable set of extractions. Furthermore, in the amount of time it takes KNOWITALL to perform extraction for a handful of pre-specified relations, TEXTRUNNER extracts a far broader set of facts reflecting orders of magnitude more relations, discovered on the fly. We report statistics on TEXTRUNNER's 11,000,000 highest probability tuples, and show that they contain over 1,000,000 concrete facts and over 6,500,000 more abstract assertions.},
+  booktitle = {Proceedings of the 20th International Joint Conference on Artifical Intelligence},
+  pages     = {2670–2676},
+  numpages  = {7},
+  location  = {Hyderabad, India},
+  series    = {IJCAI'07}
+}
+
+@misc{beckerman2019learning,
+  title         = {Learning Open Information Extraction of Implicit Relations from Reading Comprehension Datasets},
+  author        = {Jacob Beckerman and Theodore Christakis},
+  year          = {2019},
+  eprint        = {1905.07471},
+  archiveprefix = {arXiv},
+  primaryclass  = {cs.IR}
+}
+
+@inproceedings{pal-mausam-2016-demonyms,
+  title     = {Demonyms and Compound Relational Nouns in Nominal Open {IE}},
+  author    = {Pal, Harinder  and
+               {Mausam}},
+  editor    = {Pujara, Jay  and
+               Rocktaschel, Tim  and
+               Chen, Danqi  and
+               Singh, Sameer},
+  booktitle = {Proceedings of the 5th Workshop on Automated Knowledge Base Construction},
+  month     = jun,
+  year      = {2016},
+  address   = {San Diego, CA},
+  publisher = {Association for Computational Linguistics},
+  url       = {https://aclanthology.org/W16-1307},
+  doi       = {10.18653/v1/W16-1307},
+  pages     = {35--39}
+}
+
+@inproceedings{saha-etal-2017-bootstrapping,
+  title     = {Bootstrapping for Numerical Open {IE}},
+  author    = {Saha, Swarnadeep  and
+               Pal, Harinder  and
+               {Mausam}},
+  editor    = {Barzilay, Regina  and
+               Kan, Min-Yen},
+  booktitle = {Proceedings of the 55th Annual Meeting of the Association for Computational Linguistics (Volume 2: Short Papers)},
+  month     = jul,
+  year      = {2017},
+  address   = {Vancouver, Canada},
+  publisher = {Association for Computational Linguistics},
+  url       = {https://aclanthology.org/P17-2050},
+  doi       = {10.18653/v1/P17-2050},
+  pages     = {317--323},
+  abstract  = {We design and release BONIE, the first open numerical relation extractor, for extracting Open IE tuples where one of the arguments is a number or a quantity-unit phrase. BONIE uses bootstrapping to learn the specific dependency patterns that express numerical relations in a sentence. BONIE{'}s novelty lies in task-specific customizations, such as inferring implicit relations, which are clear due to context such as units (for e.g., {`}square kilometers{'} suggests area, even if the word {`}area{'} is missing in the sentence). BONIE obtains 1.5x yield and 15 point precision gain on numerical facts over a state-of-the-art Open IE system.}
 }

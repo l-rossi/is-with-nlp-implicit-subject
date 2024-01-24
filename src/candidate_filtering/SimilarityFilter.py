@@ -11,7 +11,7 @@ from missing_subject_detection.ImplicitSubjectDetection import ImplicitSubjectDe
 
 class SimilarityFilter(CandidateFilter):
     """
-    Tries to judge
+    Tries to judge the quality of candidates by comparing their similarity to that of the context.
     """
 
     def __init__(self, missing_subject_inserter: ImplicitSubjectInserter = None, top_k=10, use_context=False, model="en_use_md"):

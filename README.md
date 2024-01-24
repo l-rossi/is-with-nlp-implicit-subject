@@ -23,11 +23,29 @@ to select it.
 
 Please use the root folder as your working directory.
 
-You will need an OpenAI API key environment variable (`OPENAI_API_KEY`) to use the ChatGPTFilter. You can provided in a `.env` file:
+You will need an OpenAI API key environment variable (`OPENAI_API_KEY`) to use the ChatGPTFilter. You can provided it in a `.env` file:
 
 ```
 OPENAI_API_KEY=<Your Key>
 ```
+
+## Usage
+The main entry point to this code base is the `ImplicitSubjectPipeline'. A minimal example of its usage
+can be seen in the following:
+
+```python
+pipeline = ImplicitSubjectPipeline(
+    missing_subject_detectors=[...],
+    candidate_extractor=CandidateExtractorImpl(),
+    candidate_rankers=[...],
+    missing_subject_inserter=ImplicitSubjectInserterImpl(),
+)
+
+result = pipeline.apply("<The inspected text>", "<The context from which to extract subjects>")
+```
+
+
+
 
 ## Goldstandard
 
