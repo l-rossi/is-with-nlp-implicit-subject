@@ -20,11 +20,21 @@ class ImplicitSubjectPipeline:
     def __init__(self,
                  missing_subject_detectors: List[ImplicitSubjectDetector],
                  candidate_extractor: CandidateExtractor,
-                 candidate_rankers: List[CandidateFilter],
+                 candidate_filters: List[CandidateFilter],
                  missing_subject_inserter: ImplicitSubjectInserter,
                  verbose: bool = False,
                  fast: bool = False):
-        self._candidate_rankers = candidate_rankers
+        """
+        Creates an ImplicitSubjectPipeline.
+
+        :param missing_subject_detectors: A list of ImplicitSubjectDetectors to be used.
+        :param candidate_extractor: The CandidateExtractor to be used.
+        :param candidate_filters: A list of CandidateFilters to be used.
+        :param missing_subject_inserter: The ImplicitSubjectInserter to be used.
+        :param verbose: If debug infromation should be printed.
+        :param fast: If True uses en_core_web_sm instead of en_core_web_trf for spaCy
+        """
+        self._candidate_filters = candidate_filters
         self._missing_subject_detectors = missing_subject_detectors
         self._candidate_extractor = candidate_extractor
         self._missing_subject_inserter = missing_subject_inserter
@@ -77,7 +87,7 @@ class ImplicitSubjectPipeline:
             return _log, _res
 
         for target in targets:
-            log, res = reduce(_logged_apply, self._candidate_rankers, ([(None, candidates)], candidates))
+            log, res = reduce(_logged_apply, self._candidate_filters, ([(None, candidates)], candidates))
             tok = res[0] if res else candidates[0]
             yield tok, log
 

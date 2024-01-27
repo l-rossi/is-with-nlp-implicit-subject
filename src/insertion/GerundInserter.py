@@ -13,7 +13,7 @@ class GerundInserter(SpecializedInserter):
     Functional decomposition is a bane on my existence.
     """
 
-    # TODO this seems a but sketchy
+    # TODO one should probably also look for temporal signal words like "when" and "during"
     PREPOSITIONS_TAKING_GERUND = {"of", "with", "for", "at", "about", "against", "up", "to"}
 
     def accepts(self, subject_type: ImplicitSubjectType):
@@ -56,7 +56,7 @@ class GerundInserter(SpecializedInserter):
             if insertion_point.is_sent_start:
                 list_tokens[
                     insertion_point.i - span.start] = SpecializedInserter._upper_case_first(
-                    cleaned_subj) + " " + SpecializedInserter._lower_case_first(
+                    cleaned_subj) + SpecializedInserter._lower_case_first(
                     target_replacement) + insertion_point.whitespace_
             else:
                 list_tokens[insertion_point.i - span.start] = SpecializedInserter._lower_case_first(

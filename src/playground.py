@@ -10,8 +10,11 @@ load_dotenv()
 
 
 def main():
-    ctx = """
     """
+    This is just a file for messing around mostly with the dependcy parser.
+    Nothing of value can be found here.
+    """
+
     nlp = spacy.load("en_core_web_trf")
 
     """detectors = [PassiveDetector(), ImperativeDetector(), GerundDetector(), NominalizedGerundWordlistDetector()]
@@ -31,7 +34,7 @@ def main():
     # Omitting the verb from the sentence is also possible. Once omitted, it is no longer present.
 
     txt = """
-Always use the cheapest parts.
+ Based on your job applications, new potential job offers are sent to you.
 """
 
     """
@@ -54,7 +57,7 @@ Always use the cheapest parts.
 
     stemmer = PorterStemmer()
 
-    print(stemmer.stem("withdrawal"))
+    print(stemmer.stem("eating"))
 
     similarity_nlp = spacy.load("en_core_web_lg")
     t1 = "The setup of your account starts with Blizzard checking whether you have a battle.net account."

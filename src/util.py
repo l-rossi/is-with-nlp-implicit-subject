@@ -113,7 +113,8 @@ def get_noun_chunk(token: Token) -> Span:
     return token.doc[token.i: token.i + 1]
 
 
-def load_gold_standard(file_name='./data/evaluation/gold_standard.csv') -> Iterable[Tuple[str, str, str, List[str], List[str]]]:
+def load_gold_standard(file_name='./data/evaluation/gold_standard.csv') -> Iterable[
+    Tuple[str, str, str, List[str], List[str]]]:
     """
     Loads the gold standard.
     """
@@ -147,16 +148,6 @@ def search_for_head_block_nouns(tok: Token):
     return head
 
 
-def has_aux_pass(token: Token):
-    """
-    TODO This is not actually a great way of detecting of the predicate 'needs' a subject as
-    for example: Impaled on a pike [by loyalists], Oliver Cromwell's head was paraded around London.
-    It seems to be a good heuristic though :/
-    (Sorry for the example)
-    """
-    return "auxpass" in [x.dep_ for x in token.children]
-
-
 def has_explicit_subject(token: Token):
     """
     Determines if a potential detection should be discarded as it already has an explicit subject.
@@ -172,6 +163,7 @@ def find_conj_head(token: Token) -> Token:
     while head.dep_ == "conj":
         head = head.head
     return head
+
 
 def dependency_trees_equal(doc1: Doc, doc2: Doc):
     """
