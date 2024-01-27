@@ -3,11 +3,14 @@ from dotenv import load_dotenv
 from ImplicitSubjectPipeline import ImplicitSubjectPipeline
 from candidate_extraction.CandidateExtracorImpl import CandidateExtractorImpl
 from candidate_filtering.CandidateTextOccurrenceFilter import CandidateTextOccurrenceFilter
+from candidate_filtering.ChatGPTFilter import ChatGPTFilter
 from candidate_filtering.DependentOfSameSentenceFilter import DependentOfSameSentenceFilter
 from candidate_filtering.ImperativeFilter import ImperativeFilter
 from candidate_filtering.PartOfSpeechFilter import PartOfSpeechFilter
 from candidate_filtering.PerplexityFilter import PerplexityFilter
-from candidate_filtering.SubjectOfPreviousPhraseFilter import PreviouslyMentionedRelationFilter
+from candidate_filtering.PreviouslyMentionedRelationFilter import PreviouslyMentionedRelationFilter
+from candidate_filtering.ProximityFilter import ProximityFilter
+from candidate_filtering.SimilarityFilter import SimilarityFilter
 from evaluation.evaluation import run_gs_eval
 from insertion.ImplicitSubjectInserterImpl import ImplicitSubjectInserterImpl
 from missing_subject_detection.GerundDetector import GerundDetector
@@ -39,13 +42,12 @@ def main():
             ImperativeFilter(),
             PartOfSpeechFilter(),
             DependentOfSameSentenceFilter(),
-            # ChatGPTFilter(),
-            # SimilarityFilter(use_context=True, model="en_use_lg"),
+            ChatGPTFilter(),
+            SimilarityFilter(use_context=True, model="en_use_lg"),
             PerplexityFilter(max_returned=10000),
-            # PreviouslyMentionedRelationFilter(),
+            PreviouslyMentionedRelationFilter(),
             CandidateTextOccurrenceFilter(),
-            # SemanticSimilarityFilter(),
-            # ProximityFilter(),
+            ProximityFilter(),
         ],
         missing_subject_inserter=ImplicitSubjectInserterImpl(),
         verbose=True
