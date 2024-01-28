@@ -1,0 +1,90 @@
+\begin{thebibliography}{10}\setlength{\itemsep}{-1ex}\small
+
+\bibitem{banko}
+M.~Banko, M.~J. Cafarella, S.~Soderland, M.~Broadhead, and O.~Etzioni.
+\newblock Open information extraction from the web.
+\newblock In {\em Proceedings of the 20th International Joint Conference on
+  Artifical Intelligence}, IJCAI'07, page 2670–2676, San Francisco, CA, USA,
+  2007. Morgan Kaufmann Publishers Inc.
+
+\bibitem{universal_sentence_encoder}
+D.~Cer, Y.~Yang, S.~yi~Kong, N.~Hua, N.~L.~U. Limtiaco, R.~S. John,
+  N.~Constant, M.~Guajardo-Céspedes, S.~Yuan, C.~Tar, Y.~hsuan Sung,
+  B.~Strope, and R.~Kurzweil.
+\newblock Universal sentence encoder.
+\newblock In {\em In submission to: EMNLP demonstration}, Brussels, Belgium,
+  2018.
+\newblock In submission.
+
+\bibitem{kg_completion}
+Z.~Chen, Y.~Wang, B.~Zhao, J.~Cheng, X.~Zhao, and Z.~Duan.
+\newblock Knowledge graph completion: A review.
+\newblock {\em IEEE Access}, 8:192435--192456, 2020.
+
+\bibitem{NLP_bpm_data}
+{\relax Eduardo Breitembach}.
+\newblock Repo for nlp bpm datasets.
+\newblock \url{https://github.com/EduardoBre/nlp-bpm-data}, 2024.
+
+\bibitem{spacy}
+M.~Honnibal, I.~Montani, S.~Van~Landeghem, and A.~Boyd.
+\newblock {spaCy: Industrial-strength Natural Language Processing in Python}.
+\newblock 2020.
+
+\bibitem{jurafsky}
+D.~Jurafsky and J.~H. Martin.
+\newblock {\em Speech and Language Processing}.
+\newblock 2023.
+
+\bibitem{openai:2022}
+OpenAI.
+\newblock Gpt-3.5 turbo.
+\newblock \url{https://www.openai.com/}, 2022.
+\newblock Accessed: January 22, 2024.
+
+\bibitem{pal-mausam-2016-demonyms}
+H.~Pal and {Mausam}.
+\newblock Demonyms and compound relational nouns in nominal open {IE}.
+\newblock In J.~Pujara, T.~Rocktaschel, D.~Chen, and S.~Singh, editors, {\em
+  Proceedings of the 5th Workshop on Automated Knowledge Base Construction},
+  pages 35--39, San Diego, CA, June 2016. Association for Computational
+  Linguistics.
+
+\bibitem{gpt2}
+A.~Radford, J.~Wu, R.~Child, D.~Luan, D.~Amodei, and I.~Sutskever.
+\newblock Language models are unsupervised multitask learners.
+\newblock 2019.
+
+\bibitem{saha-etal-2017-bootstrapping}
+S.~Saha, H.~Pal, and {Mausam}.
+\newblock Bootstrapping for numerical open {IE}.
+\newblock In R.~Barzilay and M.-Y. Kan, editors, {\em Proceedings of the 55th
+  Annual Meeting of the Association for Computational Linguistics (Volume 2:
+  Short Papers)}, pages 317--323, Vancouver, Canada, July 2017. Association for
+  Computational Linguistics.
+
+\bibitem{sai_deviations_regulations}
+C.~Sai, K.~Winter, E.~Fernanda, and S.~Rinderle-Ma.
+\newblock Detecting deviations between external and internal regulatory
+  requirements for improved process compliance assessment.
+\newblock In M.~Indulska, I.~Reinhartz-Berger, C.~Cetina, and O.~Pastor,
+  editors, {\em Advanced Information Systems Engineering}, pages 401--416,
+  Cham, 2023. Springer Nature Switzerland.
+
+\bibitem{pattern_library}
+T.~D. Smedt and W.~Daelemans.
+\newblock Pattern for python.
+\newblock {\em Journal of Machine Learning Research}, 13(66):2063--2067, 2012.
+
+\bibitem{gdpr}
+{\relax The European Parliament and the Council of the European Union}.
+\newblock Regulation (eu) 2016/679 of the european parliament and of the
+  council of 27 april 2016.
+\newblock {\em Official Journal L119}, page~1, 2016.
+
+\bibitem{python}
+G.~Van~Rossum and F.~L. Drake.
+\newblock {\em Python 3 Reference Manual}.
+\newblock CreateSpace, Scotts Valley, CA, 2009.
+
+\end{thebibliography}
