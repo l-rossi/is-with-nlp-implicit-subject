@@ -5,7 +5,7 @@ This project tackles the challenge of identifying implicit subjects in legal tex
 
 ## Installation
 
-I recommend using [Anaconda](https://www.anaconda.com/) for setting up the environment and all dependencies.
+I recommend using [Anaconda](https://www.anaconda.com/) for setting up the environment and all dependencies (I had some slight problems with the solver in conda version 23.9.0 on Ubuntu. I solved them by using libmamba).
 
 Run:
 
@@ -20,6 +20,9 @@ conda activate is-with-nlp-implicit-subject
 ```
 
 to select it.
+
+
+## Running
 
 Please use the root folder as your working directory. When executing the script, for example:
 
