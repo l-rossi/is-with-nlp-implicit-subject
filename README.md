@@ -29,7 +29,7 @@ python3 ./src/main.py
 
 You will need an OpenAI API key environment variable (`OPENAI_API_KEY`) to use the `ChatGPTFilter`. You can provide it
 in
-a `.env` file:
+a `.env` file (An entire pass through the gold standard costs approximately 6ct):
 
 ```
 OPENAI_API_KEY=<Your Key>
@@ -55,7 +55,8 @@ result = pipeline.apply("<The inspected text>", "<The context from which to extr
 | `candidate_rankers`         | `CandidateFilter`         | `ImperativeFilter`, `PartOfSpeechFilter`, `DependentOfSameSentenceFilter`, `ChatGPTFilter`,`SimilarityFilter`, `PerplexityFilter`, `PreviouslyMentionedRelationFilter`, `CandidateTextOccurrenceFilter`, `ProximityFilter` |
 
 For more information on the configuration, please refer to the doc strings.
-For more information on the components refer either to the doc strings or preferrably to the writeup at `documentation/writeup/is_with_nlp_is.pdf`.
+For more information on the components refer either to the doc strings or preferrably to the writeup
+at `documentation/writeup/is_with_nlp_is.pdf`.
 
 An example usage of the pipeline can be found in `main.py` which runs a implicit subject pipeline against our gold
 standard.
@@ -74,6 +75,11 @@ The gold standard can be found in `./data/evaluation/gold_standard.csv`:
 
 The sources referenced in the gold standard are relative to the `data/external` directory.
 
+## Index of important files
 
-## External Resources
-[Link to final presentation](https://pitch.com/v/is-with-nlp-58ufnj)
+| File                        | Location                                             |
+|-----------------------------|------------------------------------------------------|
+| Paper                       | `./documentation/writeup/is_with_nlp_is.pdf`         |
+| Final Presentation          | `./documentation/final_presentation/IS WITH NLP.pdf` |
+| Final Presentation (Online) | [Pitch.com](https://pitch.com/v/is-with-nlp-58ufnj)  |
+| Gold Standard               | `./data/evaluation/gold_standard.csv`                |
