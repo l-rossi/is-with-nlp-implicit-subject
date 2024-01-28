@@ -41,7 +41,7 @@ class PerplexityFilter(CandidateFilter):
                                                       predictions=input_texts)["perplexities"]
         _, *input_texts = input_texts
 
-        # print(baseline, list(zip(candidates, results)))
+        print(baseline, list(zip(candidates, results)))
 
         # We allow for slightly more perplexity than the baseline (i.e., no subject inserted)
         output = [(x, p) for x, p in zip(candidates, results) if

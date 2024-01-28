@@ -5,9 +5,11 @@ from typing import List, Optional, Tuple
 import spacy
 from spacy.tokens import Token, Span
 
+from candidate_extraction.CandidateExtracorImpl import CandidateExtractorImpl
 from candidate_extraction.CandidateExtractor import CandidateExtractor
 from candidate_filtering.CandidateFilter import CandidateFilter
 from insertion.ImplicitSubjectInserter import ImplicitSubjectInserter
+from insertion.ImplicitSubjectInserterImpl import ImplicitSubjectInserterImpl
 from missing_subject_detection.ImplicitSubjectDetection import ImplicitSubjectDetection
 from missing_subject_detection.ImplicitSubjectDetector import ImplicitSubjectDetector
 
@@ -19,9 +21,9 @@ class ImplicitSubjectPipeline:
 
     def __init__(self,
                  missing_subject_detectors: List[ImplicitSubjectDetector],
-                 candidate_extractor: CandidateExtractor,
                  candidate_filters: List[CandidateFilter],
-                 missing_subject_inserter: ImplicitSubjectInserter,
+                 candidate_extractor: CandidateExtractor = None,
+                 missing_subject_inserter: ImplicitSubjectInserter = None,
                  verbose: bool = False,
                  fast: bool = False):
         """
@@ -36,8 +38,8 @@ class ImplicitSubjectPipeline:
         """
         self._candidate_filters = candidate_filters
         self._missing_subject_detectors = missing_subject_detectors
-        self._candidate_extractor = candidate_extractor
-        self._missing_subject_inserter = missing_subject_inserter
+        self._candidate_extractor = candidate_extractor or CandidateExtractorImpl()
+        self._missing_subject_inserter = missing_subject_inserter or ImplicitSubjectInserterImpl()
         self._verbose = verbose
         self._nlp = spacy.load("en_core_web_sm" if fast else "en_core_web_trf")
         self._last_detections = None
@@ -67,6 +69,9 @@ class ImplicitSubjectPipeline:
             print(*msg, **kwargs)
 
     def _apply_candidate_filters(self, targets: List[ImplicitSubjectDetection], candidates: List[Token], context: Span):
+        """
+        Applies the candidate filters to the candidates in a chain operation.
+        """
         def _apply_filter(acc: List[Token], f: CandidateFilter):
             prev_len = len(acc)
             if prev_len == 1:
@@ -98,6 +103,8 @@ class ImplicitSubjectPipeline:
         if not context:
             context = inspected_text
 
+        # Generally we assume the inspected text to be part of the context. If we can use a single doc
+        # which is necessary for some filters (ProximityFilter) to work correctly. Otherwise, we create two docs.
         if inspected_text not in context:
             warnings.warn(f"Could not find inspected text in context. Using separate docs. ('{inspected_text}')")
             inspected_text_span = self._nlp(inspected_text)[:]

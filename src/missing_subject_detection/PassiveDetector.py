@@ -21,7 +21,6 @@ class PassiveDetector(ImplicitSubjectDetector):
         self._blacklist = blacklist
 
     def detect(self, span: Span) -> List[ImplicitSubjectDetection]:
-        # TODO the GS usually ignores the detection is an aux_pass is present -> and not has_aux_pass(tok)
         return [ImplicitSubjectDetection(token=tok, type=ImplicitSubjectType.PASSIVE) for tok in span if
                 tok.tag_ == "VBN"
                 and not has_explicit_subject(find_conj_head(tok))

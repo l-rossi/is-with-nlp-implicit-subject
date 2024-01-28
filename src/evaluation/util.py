@@ -81,13 +81,10 @@ def run_gs_eval(pipeline: ImplicitSubjectPipeline, start=None, end=None):
         similarity = gs_doc.similarity(generated_doc)
         n_inspected += 1
 
-        if gs.strip() == generated.strip():  # or similarity > 0.999:  # <- seems to be a good cutoff for allowing minor permutations in the sentence structure
+        if gs.strip() == generated.strip() or dependency_trees_equal(gs_doc, generated_doc):
             n_correct += 1
             mask += "x"
-        elif dependency_trees_equal(gs_doc, generated_doc):
-            n_correct += 1
-            mask += "x"
-        elif similarity > 0.995:  # <- this is just some magic number based on empirical observation. This is only an indication of possbile easy improvements and not really a metric for the process doing a good job as sentence length seems to skew this metric.
+        elif similarity > 0.995:
             mask += "-"
         else:
             mask += "_"
@@ -96,7 +93,7 @@ def run_gs_eval(pipeline: ImplicitSubjectPipeline, start=None, end=None):
         print("Expected:", gs)
         print("Actual:  ", generated)
         print("Similarity: ", similarity)
-        print(f"dep equality: {dependency_trees_equal(gs_doc, generated_doc)}")
+        print(f"Dependency equality: {dependency_trees_equal(gs_doc, generated_doc)}")
 
         print("Filter failures by filter:", filter_stats_accumulator.counts())
         print(f"Did not filter correct candidate: {filter_stats_accumulator.performance_str()}")

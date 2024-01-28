@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 
+import evaluation
 from ImplicitSubjectPipeline import ImplicitSubjectPipeline
 from candidate_extraction.CandidateExtracorImpl import CandidateExtractorImpl
 from candidate_filtering.CandidateTextOccurrenceFilter import CandidateTextOccurrenceFilter
@@ -11,7 +12,7 @@ from candidate_filtering.PerplexityFilter import PerplexityFilter
 from candidate_filtering.PreviouslyMentionedRelationFilter import PreviouslyMentionedRelationFilter
 from candidate_filtering.ProximityFilter import ProximityFilter
 from candidate_filtering.SimilarityFilter import SimilarityFilter
-from evaluation.evaluation import run_gs_eval
+from evaluation.util import run_gs_eval
 from insertion.ImplicitSubjectInserterImpl import ImplicitSubjectInserterImpl
 from missing_subject_detection.GerundDetector import GerundDetector
 from missing_subject_detection.ImperativeDetector import ImperativeDetector
@@ -37,19 +38,17 @@ def main():
             NominalizedGerundWordlistDetector(),
             # NounVerbStemDetector(),
         ],
-        candidate_extractor=CandidateExtractorImpl(),
         candidate_filters=[
             ImperativeFilter(),
             PartOfSpeechFilter(),
             DependentOfSameSentenceFilter(),
-            ChatGPTFilter(),
-            SimilarityFilter(use_context=True, model="en_use_lg"),
+            # ChatGPTFilter(),
+            # SimilarityFilter(use_context=True, model="en_use_lg"),
             PerplexityFilter(max_returned=10000),
-            PreviouslyMentionedRelationFilter(),
+            # PreviouslyMentionedRelationFilter(),
             CandidateTextOccurrenceFilter(),
-            ProximityFilter(),
+            # ProximityFilter(),
         ],
-        missing_subject_inserter=ImplicitSubjectInserterImpl(),
         verbose=True
     )
 
@@ -78,7 +77,8 @@ def main():
     # result = pipeline.apply("Mocked, I made my retreat.", context)
     # print(result)
 
-    run_gs_eval(pipeline, start=11, end=12)
+    # runs the evaluation on the gold standard
+    run_gs_eval(pipeline)
 
 
 if __name__ == "__main__":
