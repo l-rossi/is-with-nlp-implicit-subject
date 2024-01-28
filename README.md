@@ -7,7 +7,7 @@ This project tackles the challenge of identifying implicit subjects in legal tex
 
 I recommend using [Anaconda](https://www.anaconda.com/) for setting up the environment and all dependencies (I had some slight problems with the solver in conda version 23.9.0 on Ubuntu. I solved them by using libmamba).
 
-Run:
+After cloning the project, run from inside the cloned directory:
 
 ```console
 conda env create -f env.yml
@@ -21,6 +21,18 @@ conda activate is-with-nlp-implicit-subject
 
 to select it.
 
+
+If this fails, you can fall back to the `requirements.txt` and a Python 3.10
+installation:
+
+```console
+
+
+```
+
+
+I would also recommend removing the `is-with-nlp-implicit-subject` when you
+are done with this project as it uses up a substantial chunk of disk space.
 
 ## Running
 
@@ -37,6 +49,8 @@ a `.env` file (An entire pass through the gold standard costs approximately 6ct)
 ```
 OPENAI_API_KEY=<Your Key>
 ```
+
+Please note, that running the program for the first time will install some extra files and may thus take longer.
 
 ## Usage
 
