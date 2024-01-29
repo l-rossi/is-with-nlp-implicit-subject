@@ -33,16 +33,17 @@ class PreviouslyMentionedRelationFilter(CandidateFilter):
         """
         Retain only candidates that are the subject of predicates with the same stem as the step of the target token.
         """
-        if target.type == ImplicitSubjectType.GERUND:
-            # look for patient
-            check_dep = PreviouslyMentionedRelationFilter._check_actor_dep
-        elif target.type in {ImplicitSubjectType.PASSIVE, ImplicitSubjectType.NOMINALIZED_VERB}:
-            # look for actor
-            check_dep = PreviouslyMentionedRelationFilter._check_patient_dep
-        else:
+        if target.type == ImplicitSubjectType.IMPERATIVE:
             return candidates
 
-        target_stem = self._stemmer.stem(target.token.lemma_)
+        if target.token.dep_ == "auxpass":
+            check_dep = PreviouslyMentionedRelationFilter._check_patient_dep
+            target_token = target.token.head
+        else:
+            check_dep = PreviouslyMentionedRelationFilter._check_actor_dep
+            target_token = target.token
+
+        target_stem = self._stemmer.stem(target_token.lemma_)
         refined_candidates = {c.lemma_.lower() for c in candidates if
                               c.head.dep_ != "auxpass" and
                               self._stemmer.stem(search_for_head(c).lemma_) == target_stem and
@@ -51,9 +52,9 @@ class PreviouslyMentionedRelationFilter(CandidateFilter):
         return [c for c in candidates if c.lemma_.lower() in refined_candidates] or candidates
 
     @staticmethod
-    def _check_actor_dep(tok: Token):
+    def _check_patient_dep(tok: Token):
         return tok.dep_ in {"attr", "dobj", "dative", "oprd", "nsubjpass"}
 
     @staticmethod
-    def _check_patient_dep(tok: Token):
-        return (tok in ACTIVE_VOICE_SUBJ_DEPS) or (tok.dep_ == "pobj" and tok.head.dep_ == "agent")
+    def _check_actor_dep(tok: Token):
+        return (tok.dep_ in ACTIVE_VOICE_SUBJ_DEPS) or (tok.dep_ == "pobj" and tok.head.dep_ == "agent")

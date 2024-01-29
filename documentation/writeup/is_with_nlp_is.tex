@@ -279,9 +279,8 @@ inspected target. For example, if the sentence `After \textit{submission}, [some
 is preceded by the sentence `The employee submits [something]', we can assume that the
 correct candidate for `submission' is `by the employee'. More concretely, we can
 search through the candidates and keep those, whose stem of the lemma of their predicate is equal to that
-of the implicit subject target's. If the target takes a subject (gerund), we keep only
-candidates that appear as the actor in a phrase (subject in the active voice and agent in the passive voice)
-else we keep those that appear as a patient (subject in the passive voice and object in the active voice).
+of the implicit subject target's. We further filter these candidates to those that appear either
+as the subject of a phrase in the active voice or an agent of a phrase in the passive voice.
 
 
 % this straight up does not work.
