@@ -55,7 +55,7 @@ the following:
 ```python
 pipeline = ImplicitSubjectPipeline(
     missing_subject_detectors=[...],
-    candidate_rankers=[...],
+    candidate_filters=[...],
 )
 
 result = pipeline.apply("<The inspected text>", "<The context from which to extract subjects>")
@@ -64,7 +64,7 @@ result = pipeline.apply("<The inspected text>", "<The context from which to extr
 | Parameter                   | Interface                 | Implementations                                                                                                                                                                                                            |
 |-----------------------------|---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `missing_subject_detectors` | `ImplicitSubjectDetector` | `PassiveDetector`, `ImperativeDetector`, `GerundDetector`, `NominalizedGerundWordlistDetector`, `NounVerbStemDetector`                                                                                                     |
-| `candidate_rankers`         | `CandidateFilter`         | `ImperativeFilter`, `PartOfSpeechFilter`, `DependentOfSameSentenceFilter`, `ChatGPTFilter`,`SimilarityFilter`, `PerplexityFilter`, `PreviouslyMentionedRelationFilter`, `CandidateTextOccurrenceFilter`, `ProximityFilter` |
+| `candidate_filters`         | `CandidateFilter`         | `ImperativeFilter`, `PartOfSpeechFilter`, `DependentOfSameSentenceFilter`, `ChatGPTFilter`,`SimilarityFilter`, `PerplexityFilter`, `PreviouslyMentionedRelationFilter`, `CandidateTextOccurrenceFilter`, `ProximityFilter` |
 
 For more information on the configuration, please refer to the doc strings.
 For more information on the components refer either to the doc strings or preferrably to the writeup

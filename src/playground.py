@@ -34,7 +34,7 @@ def main():
     # Omitting the verb from the sentence is also possible. Once omitted, it is no longer present.
 
     txt = """
-The entering gas, knocked out the person.
+The entering person starts the process.
 """
 
     """

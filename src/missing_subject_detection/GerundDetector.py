@@ -14,4 +14,5 @@ class GerundDetector(ImplicitSubjectDetector):
 
     def detect(self, span: Span) -> List[ImplicitSubjectDetection]:
         return [ImplicitSubjectDetection(token=tok, type=ImplicitSubjectType.GERUND) for tok in span if
-                tok.tag_ == "VBG" and not has_explicit_subject(tok) and not tok.dep_ == "amod"]
+                tok.tag_ == "VBG" and not has_explicit_subject(
+                    tok) and not tok.dep_ == "amod" and not tok.dep_ == "acl"]
