@@ -277,10 +277,10 @@ the context for previous occurrences of each candidate standing in relation to t
 inspected target. For example, if the sentence `After \textit{submission}, [something happens]'
 is preceded by the sentence `The employee submits [something]', we can assume that the
 correct candidate for `submission' is `by the employee'. More concretely, we can
-search through each candidate's predicate and keep those, whose stem of their lemma is equal to that
-of the implicit subject target. If the target takes a subject (gerund), we keep only
+search through the candidates and keep those, whose stem of the lemma of their predicate is equal to that
+of the implicit subject target's. If the target takes a subject (gerund), we keep only
 candidates that appear as the actor in a phrase (subject in the active voice and agent in the passive voice)
-else we keep those that appear as a patient.
+else we keep those that appear as a patient (subject in the passive voice and object in the active voice).
 
 
 % this straight up does not work.

@@ -1,19 +1,19 @@
 Approaching Information System Challenges with Natural Language Processing - Finding Implicit Subjects
 ==============================
 
-This project tackles the challenge of identifying implicit subjects in legal text by employing a rule based approach
+This project tackles the challenge of identifying implicit subjects in business process descriptions by employing a rule based approach.
 
 ## Installation
 
-I recommend using [Anaconda](https://www.anaconda.com/) for setting up the environment and all dependencies (I had some slight problems with the solver in conda version 23.9.0 on Ubuntu. I solved them by using libmamba).
+I recommend using [Anaconda](https://www.anaconda.com/) for setting up the environment and all dependencies (If resolving the environment takes too long, try using the libmamba solver).
 
-After cloning the project, run from inside the cloned directory:
+After cloning the project, run:
 
 ```console
 conda env create -f env.yml
 ```
 
-to create the `is-with-nlp-implicit-subject` environment on your machine and:
+from inside the cloned directory to create the `is-with-nlp-implicit-subject` environment on your machine and:
 
 ```console
 conda activate is-with-nlp-implicit-subject
@@ -23,10 +23,10 @@ to select it.
 
 
 If this fails, you can fall back to the `requirements.txt` and a Python 3.10
-installation.hmm
+installation.
 
 
-I would also recommend removing the `is-with-nlp-implicit-subject` when you
+I would also recommend removing the `is-with-nlp-implicit-subject` environment when you
 are done with this project as it uses up a substantial chunk of disk space.
 
 ## Running
@@ -73,7 +73,7 @@ at `documentation/writeup/is_with_nlp_is.pdf`.
 An example usage of the pipeline can be found in `main.py` which runs an implicit subject pipeline against our gold
 standard.
 
-## Goldstandard
+## Gold Standard
 
 The gold standard can be found in `./data/evaluation/gold_standard.csv`:
 
