@@ -4,7 +4,7 @@ from spacy.tokens import Token, Span
 
 from missing_subject_detection.ImplicitSubjectDetection import ImplicitSubjectDetection, ImplicitSubjectType
 from missing_subject_detection.ImplicitSubjectDetector import ImplicitSubjectDetector
-from util import AUX_DEPS
+from util import AUX_DEPS, find_conj_head
 
 
 class ImperativeDetector(ImplicitSubjectDetector):
@@ -21,4 +21,7 @@ class ImperativeDetector(ImplicitSubjectDetector):
         Detects imperatives.
         """
         return [ImplicitSubjectDetection(token=token, type=ImplicitSubjectType.IMPERATIVE) for token in span if
-                token.tag_ == "VB" and not self._has_aux(token) and token.dep_ not in AUX_DEPS]
+                token.tag_ == "VB"
+                and not self._has_aux(find_conj_head(token))
+                and find_conj_head(token).dep_ not in AUX_DEPS
+                and find_conj_head(token).dep_ != "xcomp"]

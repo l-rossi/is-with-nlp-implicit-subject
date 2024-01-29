@@ -157,7 +157,7 @@ def has_explicit_subject(token: Token):
 
 def find_conj_head(token: Token) -> Token:
     """
-    Finds the head of a group of conjunctions.
+    Finds the head of a group of conjuncts.
     """
     head = token
     while head.dep_ == "conj":
