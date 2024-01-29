@@ -78,7 +78,7 @@ def main():
     # print(result)
 
     # runs the evaluation on the gold standard
-    run_gs_eval(pipeline)
+    run_gs_eval(pipeline, start=30, end=35)
 
 
 if __name__ == "__main__":
