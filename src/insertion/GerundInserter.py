@@ -72,16 +72,3 @@ class GerundInserter(SpecializedInserter):
                     insertion_point.i - span.start] = SpecializedInserter._lower_case_first(
                     target_replacement) + " " + insertion_point.text + insertion_point.whitespace_
             list_tokens[target.token.i - span.start] = target_replacement + target.token.whitespace_
-
-        """
-
-
-
-        if target.token.is_sent_start:
-            list_tokens[target.token.i - span.start] = SpecializedInserter._upper_case_first(
-                cleaned_subj) + " " + SpecializedInserter._lower_case_first(
-                target_replacement)
-        else:
-            list_tokens[target.token.i - span.start] = SpecializedInserter._lower_case_first(
-                cleaned_subj).rstrip() + " " + SpecializedInserter._lower_case_first(
-                target_replacement)"""

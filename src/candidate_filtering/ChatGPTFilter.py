@@ -33,8 +33,6 @@ class ChatGPTFilter(CandidateFilter):
         sentences = sentence_to_candidate_mapping.keys()
         sentences_str = "\n".join(f"{s}" for i, s in enumerate(sentences, 1))
 
-        print(sentence_to_candidate_mapping.keys())
-
         prompt = f"""
 Given the following context:
 
@@ -54,16 +52,10 @@ Which of the following sentences is most fitting? Provide only the sentence.
             )
 
             res = completion.choices[0].message.content.strip()
-
-            print(prompt)
-            print(completion)
-
             if res not in sentence_to_candidate_mapping:
                 warnings.warn(
                     f"ChatGPT produced a sentence that is not part of of the provided sentences: '{res}'. "
                     f"You are a bad prompt engineer!")
-
-            print(sentence_to_candidate_mapping[res])
 
             return sentence_to_candidate_mapping[res] or candidates
         except openai.BadRequestError as e:
