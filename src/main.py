@@ -45,8 +45,8 @@ def main():
             # ChatGPTFilter(),
             # SimilarityFilter(use_context=True, model="en_use_lg"),
             PerplexityFilter(max_returned=10000),
-            CandidateTextOccurrenceFilter(),
             # PreviouslyMentionedRelationFilter(),
+            CandidateTextOccurrenceFilter(),
             # ProximityFilter(),
         ],
         verbose=True
@@ -78,7 +78,7 @@ def main():
     # print(result)
 
     # runs the evaluation on the gold standard
-    run_gs_eval(pipeline)
+    run_gs_eval(pipeline, start=30, end=35)
 
 
 if __name__ == "__main__":

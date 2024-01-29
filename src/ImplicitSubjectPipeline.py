@@ -88,10 +88,11 @@ class ImplicitSubjectPipeline:
                           f: CandidateFilter):
             _log, _acc = acc
             _res = _apply_filter(_acc, f)
-            _log.append((f, _res))  # very functional :p
+            _log.append((f, _res))
             return _log, _res
 
         for target in targets:
+            self._debug(f"Searching for candidate for target {target}")
             log, res = reduce(_logged_apply, self._candidate_filters, ([(None, candidates)], candidates))
             tok = res[0] if res else candidates[0]
             yield tok, log
