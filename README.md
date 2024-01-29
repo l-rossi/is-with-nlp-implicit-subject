@@ -1,11 +1,13 @@
 Approaching Information System Challenges with Natural Language Processing - Finding Implicit Subjects
 ==============================
 
-This project tackles the challenge of identifying implicit subjects in business process descriptions by employing a rule based approach.
+This project tackles the challenge of identifying implicit subjects in business process descriptions by employing a rule
+based approach.
 
 ## Installation
 
-I recommend using [Anaconda](https://www.anaconda.com/) for setting up the environment and all dependencies (If resolving the environment takes too long, try using the libmamba solver).
+I recommend using [Anaconda](https://www.anaconda.com/) for setting up the environment and all dependencies (If
+resolving the environment takes too long, try using the libmamba solver).
 
 After cloning the project, run:
 
@@ -21,10 +23,8 @@ conda activate is-with-nlp-implicit-subject
 
 to select it.
 
-
 If this fails, you can fall back to the `requirements.txt` and a Python 3.10
 installation.
-
 
 I would also recommend removing the `is-with-nlp-implicit-subject` environment when you
 are done with this project as it uses up a substantial chunk of disk space.
@@ -87,11 +87,12 @@ The gold standard can be found in `./data/evaluation/gold_standard.csv`:
 
 The sources referenced in the gold standard are relative to the `data/external` directory.
 
-## Index of important files
+## Index of Files
 
-| File                        | Location                                             |
-|-----------------------------|------------------------------------------------------|
-| Paper                       | `./documentation/writeup/is_with_nlp_is.pdf`         |
-| Final Presentation          | `./documentation/final_presentation/IS WITH NLP.pdf` |
-| Final Presentation (Online) | [Pitch.com](https://pitch.com/v/is-with-nlp-58ufnj)  |
-| Gold Standard               | `./data/evaluation/gold_standard.csv`                |
+| File                                                        | Location                                             |
+|-------------------------------------------------------------|------------------------------------------------------|
+| Paper                                                       | `./documentation/writeup/is_with_nlp_is.pdf`         |
+| Final Presentation                                          | `./documentation/final_presentation/IS WITH NLP.pdf` |
+| Final Presentation (Online)                                 | [Pitch.com](https://pitch.com/v/is-with-nlp-58ufnj)  |
+| Gold Standard                                               | `./data/evaluation/gold_standard.csv`                |
+| Log (relatively unstructured and used mostly for debugging) | `./log/res`                                          |
