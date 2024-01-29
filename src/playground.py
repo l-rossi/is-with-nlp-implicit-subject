@@ -11,7 +11,7 @@ load_dotenv()
 
 def main():
     """
-    This is just a file for messing around mostly with the dependcy parser.
+    This is just a file for messing around mostly with the dependency parser.
     Nothing of value can be found here.
     """
 
@@ -34,7 +34,7 @@ def main():
     # Omitting the verb from the sentence is also possible. Once omitted, it is no longer present.
 
     txt = """
- Based on your job applications, new potential job offers are sent to you.
+The entering gas, knocked out the person.
 """
 
     """
