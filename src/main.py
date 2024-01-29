@@ -45,8 +45,8 @@ def main():
             # ChatGPTFilter(),
             # SimilarityFilter(use_context=True, model="en_use_lg"),
             PerplexityFilter(max_returned=10000),
-            CandidateTextOccurrenceFilter(),
             # PreviouslyMentionedRelationFilter(),
+            CandidateTextOccurrenceFilter(),
             # ProximityFilter(),
         ],
         verbose=True
