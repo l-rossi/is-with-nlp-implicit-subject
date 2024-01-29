@@ -23,12 +23,7 @@ to select it.
 
 
 If this fails, you can fall back to the `requirements.txt` and a Python 3.10
-installation:
-
-```console
-
-
-```
+installation.hmm
 
 
 I would also recommend removing the `is-with-nlp-implicit-subject` when you
@@ -39,7 +34,7 @@ are done with this project as it uses up a substantial chunk of disk space.
 Please use the root folder as your working directory. When executing the script, for example:
 
 ```console
-python3 ./src/main.py
+python ./src/main.py
 ```
 
 You will need an OpenAI API key environment variable (`OPENAI_API_KEY`) to use the `ChatGPTFilter`. You can provide it
@@ -75,7 +70,7 @@ For more information on the configuration, please refer to the doc strings.
 For more information on the components refer either to the doc strings or preferrably to the writeup
 at `documentation/writeup/is_with_nlp_is.pdf`.
 
-An example usage of the pipeline can be found in `main.py` which runs a implicit subject pipeline against our gold
+An example usage of the pipeline can be found in `main.py` which runs an implicit subject pipeline against our gold
 standard.
 
 ## Goldstandard
