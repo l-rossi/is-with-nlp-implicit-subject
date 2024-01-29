@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import List
 
 from spacy.tokens import Span, Token
@@ -11,6 +11,7 @@ class ImplicitSubjectInserter(ABC):
     Pipeline step of inserting the subject into the target sentence.
     """
 
+    @abstractmethod
     def insert(self, span: Span, targets: List[ImplicitSubjectDetection], subjects: List[Token]) -> str:
         """
         Insert into the target sentence.

@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import List
 
 from spacy.tokens import Token, Span
@@ -12,12 +12,14 @@ class SpecializedInserter(ABC):
     Inserts a subject into a sentence.
     """
 
+    @abstractmethod
     def accepts(self, subject_type: ImplicitSubjectType):
         """
         Checks if a subject type is accepted by this.
         """
         raise NotImplementedError()
 
+    @abstractmethod
     def insert(self, subj: Token, list_tokens: List[str], target: ImplicitSubjectDetection, span: Span):
         """
         Inserts the subject into the list_tokens list.

@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import List
 
 from spacy.tokens import Doc, Span
@@ -11,6 +11,7 @@ class ImplicitSubjectDetector(ABC):
     Abstract base class for subject detection.
     """
 
+    @abstractmethod
     def detect(self,  span: Span) -> List[ImplicitSubjectDetection]:
         """
         Detects verbs without an accompanying subject.

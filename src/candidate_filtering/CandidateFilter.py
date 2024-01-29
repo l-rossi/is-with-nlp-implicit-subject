@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import List
 
 from spacy.tokens import Token, Span
@@ -11,6 +11,7 @@ class CandidateFilter(ABC):
     Filters the documents. If no meaningful filtering can be achieved, return all the candidates.
     """
 
+    @abstractmethod
     def filter(self, target: ImplicitSubjectDetection, candidates: List[Token], context: Span) -> List[Token]:
         """
         Filters the documents. If no meaningful filtering can be achieved, return all the candidates.

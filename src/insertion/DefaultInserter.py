@@ -22,7 +22,7 @@ class DefaultInserter(SpecializedInserter):
         """
         Do the insert,
         """
-        # Skip subtrees that have a ADP as head and are linked by prep.
+        # Skip subtrees that have an ADP as head and are linked by prep.
         potential_insertion_points = list(itertools.chain.from_iterable(
             x.subtree for x in target.token.rights if
             (x.dep_ == "prep" and x.pos_ == "ADP") or x.dep_ in {"dative", "advmod"})) or [
