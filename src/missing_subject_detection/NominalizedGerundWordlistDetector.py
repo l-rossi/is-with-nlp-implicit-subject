@@ -23,7 +23,9 @@ class NominalizedGerundWordlistDetector(ImplicitSubjectDetector):
         """
         return [
             ImplicitSubjectDetection(token=tok, type=ImplicitSubjectType.NOMINALIZED_VERB) for tok in span if
-            tok.pos_ == "NOUN" and tok.text.endswith("ing") and tok.text.lower().removesuffix("ing") in self._verbs
+            tok.pos_ == "NOUN"
+            and tok.text.endswith("ing")
+            and tok.text.lower().removesuffix("ing") in self._verbs
             and not NominalizedGerundWordlistDetector._has_explicit_subject(tok)
         ]
 

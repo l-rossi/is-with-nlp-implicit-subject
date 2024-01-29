@@ -20,8 +20,10 @@ class ImperativeDetector(ImplicitSubjectDetector):
         """
         Detects imperatives.
         """
-        return [ImplicitSubjectDetection(token=token, type=ImplicitSubjectType.IMPERATIVE) for token in span if
-                token.tag_ == "VB"
-                and not self._has_aux(find_conj_head(token))
-                and find_conj_head(token).dep_ not in AUX_DEPS
-                and find_conj_head(token).dep_ != "xcomp"]
+        return [
+            ImplicitSubjectDetection(token=token, type=ImplicitSubjectType.IMPERATIVE) for token in span if
+            token.tag_ == "VB"
+            and not self._has_aux(find_conj_head(token))
+            and find_conj_head(token).dep_ not in AUX_DEPS
+            and find_conj_head(token).dep_ != "xcomp"
+        ]

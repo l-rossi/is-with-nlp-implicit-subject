@@ -21,9 +21,11 @@ class PassiveDetector(ImplicitSubjectDetector):
         self._blacklist = blacklist
 
     def detect(self, span: Span) -> List[ImplicitSubjectDetection]:
-        return [ImplicitSubjectDetection(token=tok, type=ImplicitSubjectType.PASSIVE) for tok in span if
-                tok.tag_ == "VBN"
-                and not has_explicit_subject(find_conj_head(tok))
-                and find_conj_head(tok).dep_ not in AUX_DEPS
-                and not find_conj_head(tok).dep_ == "amod"
-                and tok.text.lower() not in self._blacklist]
+        return [
+            ImplicitSubjectDetection(token=tok, type=ImplicitSubjectType.PASSIVE) for tok in span if
+            tok.tag_ == "VBN"
+            and not has_explicit_subject(find_conj_head(tok))
+            and find_conj_head(tok).dep_ not in AUX_DEPS
+            and not find_conj_head(tok).dep_ == "amod"
+            and tok.text.lower() not in self._blacklist
+        ]
