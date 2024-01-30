@@ -31,7 +31,7 @@ are done with this project as it uses up a substantial chunk of disk space.
 
 ## Running
 
-Please use the root folder as your working directory. When executing the script, for example:
+Please use the root folder as your working directory, when executing the script, for example:
 
 ```console
 python ./src/main.py
